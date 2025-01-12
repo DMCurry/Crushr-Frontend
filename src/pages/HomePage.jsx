@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 function HomePage() {
   const [data, setData] = useState(null);
@@ -7,7 +7,7 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000");
+        const response = await axiosInstance.get("/");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

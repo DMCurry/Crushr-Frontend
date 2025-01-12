@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from "../axiosInstance";
 import "./Exercises.css";
 
 function ExercisesPage() {
+  const navigate = useNavigate();
   const [exercises, setExercises] = useState([]); // Stores all exercises from API
   const [filteredExercises, setFilteredExercises] = useState([]); // Stores filtered exercises
   const [searchQuery, setSearchQuery] = useState(""); // Stores the search input
 
   useEffect(() => {
     const fetchExercises = async () => {
+      //const token = localStorage.getItem("jwt"); // Retrieve JWT from localStorage
       try {
-        const response = await axios.get("http://127.0.0.1:8000/exercises"); // Replace with your API endpoint
+        const response = await axiosInstance.get("/exercises");
         setExercises(response.data);
         setFilteredExercises(response.data); // Initially display all exercises
       } catch (error) {
-        console.error("Error fetching exercises data:", error);
+        console.log("ERROR STATUS", error.response.status);
+        if (error.response && error.response.status === 401) {
+          // Redirect to the login page if not authenticated
+          navigate("/login");
+        } else {
+          console.error("Error fetching exercises:", error);
+        }
       }
     };
 
