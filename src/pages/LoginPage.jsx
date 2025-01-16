@@ -28,6 +28,10 @@ const LoginPage = () => {
     }
   };
 
+  const handleSignupRedirect = () => {
+    navigate("/signup");
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Login</h2>
@@ -51,6 +55,20 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
+      <button
+        style={{
+          marginTop: "1rem",
+          padding: "0.5rem 1rem",
+          backgroundColor: "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+        onClick={handleSignupRedirect}
+      >
+        Create New Account
+      </button>
     </div>
   );
 };

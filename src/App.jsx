@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-ro
 import HomePage from "./pages/HomePage";
 import ExercisesPage from "./pages/ExercisesPage";
 import LoginPage from "./pages/LoginPage";
+import UserSignupPage from "./pages/UserSignupPage";
+
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/exercises" element={<ExercisesPage />} />
         <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/signup" element={<UserSignupPage />} />
+
       </Routes>
     </Router>
   );
