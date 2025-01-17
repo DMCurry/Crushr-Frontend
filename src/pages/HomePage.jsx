@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axiosInstance from "../axiosInstance";
+import './Calendar.css';
 
 
 function HomePage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
     const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/");
+        const response = await axiosInstance.get("/schedule");
         setData(response.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -31,7 +32,33 @@ function HomePage() {
   return (
     <div>
       <h1>Home Page</h1>
-      {data ? <p>Data from backend: {data.message}</p> : <p>Loading...</p>}
+      <div className="calendar-container">
+      {data ? (
+        data.data ? (
+          <div className="calendar-grid">
+            {Object.keys(data.data).map((day) => {
+              const dayData = data.data[day];  // This will be an array or null
+              return (
+                <div key={day} className="calendar-day">
+                  <h3>{day}</h3>
+                  {dayData && dayData.length > 0 ? (
+                    dayData.map((exercise) => (
+                      <p key={exercise.exercise_id}>{exercise.exercise_name}</p>
+                    ))
+                  ) : (
+                    <p>No data available</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p>No data available</p>
+        )
+      ) : (
+        <p>Loading...</p>
+      )}
+      </div>
       <button
         style={{
           marginTop: "1rem",
