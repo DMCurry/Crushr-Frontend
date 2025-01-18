@@ -11,21 +11,25 @@
     grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
     gap: 10px;
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
   }
   
   .calendar-day {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 20px;
     background-color: #f9f9f9;
     text-align: center;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-height: 150px; /* Increased height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   
   .calendar-day h3 {
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.5em; /* Larger font size for the day name */
     font-weight: bold;
   }
   
@@ -38,7 +42,7 @@
     margin-bottom: 0;
   }
   
-  .person-container {
+  .exercise-container {
     background-color: #007bff; /* Blue background for the name containers */
     color: white;
     padding: 10px;
@@ -47,10 +51,51 @@
     margin: 5px;
   }
   
-  .person-container:hover {
+  .exercise-container:hover {
     background-color: #0056b3; /* Darker blue on hover */
   }
   
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .calendar-grid {
+      grid-template-columns: repeat(4, 1fr); /* 4 columns for medium screens */
+    }
+  
+    .calendar-day {
+      min-height: 130px; /* Slightly smaller boxes */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+    }
+  
+    .calendar-day {
+      min-height: 120px; /* Smaller boxes for mobile */
+      padding: 15px;
+    }
+  
+    .calendar-day h3 {
+      font-size: 1.2em; /* Smaller font for mobile */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .calendar-grid {
+      grid-template-columns: 1fr; /* 1 column for extra small screens */
+    }
+  
+    .calendar-day {
+      min-height: 100px; /* Compact height for very small devices */
+      padding: 10px;
+    }
+  
+    .calendar-day h3 {
+      font-size: 1em;
+    }
+  }
+
   .modal {
     position: fixed;
     top: 0;

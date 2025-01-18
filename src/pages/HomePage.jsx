@@ -6,7 +6,9 @@ import './Calendar.css';
 
 function HomePage() {
   const [data, setData] = useState([]);
-    const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); // Initialize useNavigate
+  const [showModal, setShowModal] = useState(false); // To show/hide modal
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,9 +31,18 @@ function HomePage() {
     navigate("/login");
   };
 
+  const handleExerciseClick = (exercise) => {
+    setSelectedExercise(exercise);
+    setShowModal(true); // Show the modal when clicked
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
+    setSelectedExercise(null); // Reset the selected exercise
+  };
+
   return (
     <div>
-      <h1>Home Page</h1>
       <div className="calendar-container">
       {data ? (
         data.data ? (
@@ -43,7 +54,13 @@ function HomePage() {
                   <h3>{day}</h3>
                   {dayData && dayData.length > 0 ? (
                     dayData.map((exercise) => (
-                      <p key={exercise.exercise_id}>{exercise.exercise_name}</p>
+                      <div
+                        key={exercise.exercise_id}
+                        className="exercise-container"
+                        onClick={() => handleExerciseClick(exercise)}
+                      >
+                        <p>{exercise.exercise_name}</p>
+                      </div>
                     ))
                   ) : (
                     <p>No data available</p>
@@ -58,7 +75,18 @@ function HomePage() {
       ) : (
         <p>Loading...</p>
       )}
-      </div>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : ""}</h2>
+            <p>{selectedExercise.exercise_description}</p>
+            <p>Reps: {selectedExercise.exercise_reps}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
+    </div>
       <button
         style={{
           marginTop: "1rem",
