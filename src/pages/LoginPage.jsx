@@ -22,7 +22,7 @@ const LoginPage = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      navigate("/exercises"); // Redirect to exercises page
+      navigate("/"); // Redirect to home page
     } catch (err) {
       setError("Invalid username or password");
     }

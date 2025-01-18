@@ -4,37 +4,59 @@ import axiosInstance from "../axiosInstance";
 import './Calendar.css';
 
 
-function HomePage() {
+function HomePage({ onAuthChange }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false); // To show/hide modal
   const [selectedExercise, setSelectedExercise] = useState(null);
 
+  // Check authentication status on mount
+  const checkAuthStatus = async () => {
+    try {
+      await axiosInstance.get("/auth"); // An endpoint to verify authentication via JWT cookies
+      onAuthChange(true);
+      return true;
+    } catch (error) {
+      onAuthChange(false);
+      return false;
+    }
+  };
+
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/schedule");
+      setData(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Redirect to the login page if not authenticated
+        navigate("/login");
+      } 
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/schedule");
-        setData(response.data);
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // Redirect to the login page if not authenticated
-          navigate("/login");
-        } 
-        console.error("Error fetching data:", error);
+    const initialize = async () => {
+      const isAuthenticated = await checkAuthStatus();
+      if (isAuthenticated) {
+        await fetchData();
+      }
+      else {
+        navigate("/login");
       }
     };
 
-    fetchData();
+    initialize();
   }, []);
 
-  const handleLoginRedirect = () => {
-    navigate("/login");
-  };
 
   const handleExerciseClick = (exercise) => {
     setSelectedExercise(exercise);
     setShowModal(true); // Show the modal when clicked
   };
+
 
   const closeModal = () => {
     setShowModal(false); // Close the modal
@@ -87,20 +109,6 @@ function HomePage() {
         </div>
       )}
     </div>
-      <button
-        style={{
-          marginTop: "1rem",
-          padding: "0.5rem 1rem",
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        onClick={handleLoginRedirect}
-      >
-        Sign In
-      </button>
     </div>
   );
 }
