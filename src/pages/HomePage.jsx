@@ -10,6 +10,8 @@ function HomePage({ onAuthChange }) {
   const [trainingPlans, setTrainingPlans] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false); // To show/hide modal
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [currentDay, setCurrentDay] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
 
@@ -44,7 +46,6 @@ function HomePage({ onAuthChange }) {
     try {
       const response = await axiosInstance.get("/training-plan");
       setTrainingPlans(response.data);
-      console.log(String(response.data));
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Redirect to the login page if not authenticated
@@ -52,6 +53,37 @@ function HomePage({ onAuthChange }) {
       } 
       console.error("Error fetching training_exercises:", error);
     }
+  };
+
+
+  const handleSelectTrainingPlanExercises = (selectedTrainingPlanExercises) => {
+    // Update exercises when a category is selected
+    setTrainingPlanExercises(selectedTrainingPlanExercises);
+  };
+
+
+  const handleAddExercise = (day) => {
+    setCurrentDay(day);
+    setAddModalOpen(true);
+  };
+
+
+  const handleExerciseSelect = (exercise) => {
+    if (!currentDay || !exercise) return;
+
+    // Update state with the new exercise
+    const updatedData = { ...data };
+    updatedData.data[currentDay] = updatedData.data[currentDay] || [];
+    updatedData.data[currentDay].push(exercise);
+    setData(updatedData);
+
+    // Make an API call to update the server
+   /* axiosInstance.post("/schedule", {
+      day: currentDay,
+      exercise_id: exercise.id,
+    }); */
+
+    setAddModalOpen(false); // Close the modal
   };
 
 
@@ -71,12 +103,6 @@ function HomePage({ onAuthChange }) {
   }, []);
 
 
-  const handleSelectTrainingPlanExercises = (selectedTrainingPlanExercises) => {
-    // Update exercises when a category is selected
-    setTrainingPlanExercises(selectedTrainingPlanExercises);
-  };
-
-
   const handleExerciseClick = (exercise) => {
     setSelectedExercise(exercise);
     setShowModal(true); // Show the modal when clicked
@@ -87,6 +113,7 @@ function HomePage({ onAuthChange }) {
     setShowModal(false); // Close the modal
     setSelectedExercise(null); // Reset the selected exercise
   };
+
 
   return (
     <div>
@@ -99,6 +126,12 @@ function HomePage({ onAuthChange }) {
               return (
                 <div key={day} className="calendar-day">
                   <h3>{day}</h3>
+                  <button
+                    className="add-exercise-btn"
+                    onClick={() => handleAddExercise(day)}
+                  >
+                    +
+                  </button>
                   {dayData && dayData.length > 0 ? (
                     dayData.map((exercise) => (
                       <div
@@ -133,22 +166,31 @@ function HomePage({ onAuthChange }) {
           </div>
         </div>
       )}
-    </div>
-    {/* Dropdown to select exercise categories/keys */}
-    <Dropdown plans={trainingPlans} onSelectTrainingPlanExercises={handleSelectTrainingPlanExercises} />
-
-    {/* Display exercises once a category is selected */}
-    <div className="exercises-list">
-      {trainingPlanExercises.length > 0 ? (
-        trainingPlanExercises.map((t_exercise) => (
-          <div key={t_exercise.id} className="exercise-container">
-            <p>{t_exercise.exercise_name}</p>
-            <p>{t_exercise.description}</p>
-            <p>Reps: {t_exercise.reps}</p>
+      {addModalOpen && (
+        <div className="add-modal">
+          <div className="add-modal-content">
+            <h3>Add Exercise to {currentDay}</h3>
+            <Dropdown
+              plans={trainingPlans}
+              onSelectTrainingPlanExercises={handleSelectTrainingPlanExercises}
+            />
+            <button onClick={() => setAddModalOpen(false)}>Close</button>
           </div>
-        ))
-      ) : (
-        <p>No exercises added for selected plan.</p>
+                  {/* Display exercises once a category is selected */}
+          <div className="exercises-list">
+          {trainingPlanExercises.length > 0 ? (
+              trainingPlanExercises.map((t_exercise) => (
+              <div key={t_exercise.id} className="exercise-container">
+                  <p>{t_exercise.exercise_name}</p>
+                  <p>{t_exercise.description}</p>
+                  <p>Reps: {t_exercise.reps}</p>
+              </div>
+              ))
+          ) : (
+              <p>No exercises added for selected plan.</p>
+          )}
+          </div>
+        </div>
       )}
     </div>
     </div>
