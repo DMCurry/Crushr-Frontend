@@ -43,7 +43,7 @@
   }
   
   .add-exercise-btn {
-    background-color: #007bff;
+    background-color: #067e52b9;
     color: white;
     border: none;
     border-radius: 50%;
@@ -151,6 +151,7 @@
   
   .modal-content button {
     margin-top: 20px;
+    margin-right: 20px;
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -163,3 +164,16 @@
     background-color: #0056b3;
   }
   
+  .modal-content .remove-exercise-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #870808;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-content .remove-exercise-btn:hover {
+    background-color: #5d0202;
+  }

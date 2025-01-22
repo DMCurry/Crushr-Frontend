@@ -71,19 +71,31 @@ function HomePage({ onAuthChange }) {
   const handleExerciseSelect = (exercise) => {
     if (!currentDay || !exercise) return;
 
+    console.log(exercise);
     // Update state with the new exercise
     const updatedData = { ...data };
     updatedData.data[currentDay] = updatedData.data[currentDay] || [];
-    updatedData.data[currentDay].push(exercise);
-    setData(updatedData);
+    var add_exercise = {}
+    add_exercise["exercise_id"] = exercise.id
+    add_exercise["exercise_name"] = exercise.exercise_name
+    add_exercise["exercise_description"] = exercise.description
+    add_exercise["exercise_reps"] = exercise.reps
+    const exists = updatedData.data[currentDay].some((obj) => obj.exercise_id === add_exercise.exercise_id)
+    console.log(exists);
+    console.log(updatedData.data[currentDay]);
+    console.log(add_exercise.exercise_id);
+    if (!exists) {
+      updatedData.data[currentDay].push(add_exercise);
+      setData(updatedData);
 
-    // Make an API call to update the server
-   /* axiosInstance.post("/schedule", {
-      day: currentDay,
-      exercise_id: exercise.id,
-    }); */
+      // Make an API call to update the server
+      /* axiosInstance.post("/schedule", {
+        day: currentDay,
+        exercise_id: exercise.id, 
+      }); */
 
-    setAddModalOpen(false); // Close the modal
+      setAddModalOpen(false); // Close the modal
+    }
   };
 
 
@@ -103,8 +115,9 @@ function HomePage({ onAuthChange }) {
   }, []);
 
 
-  const handleExerciseClick = (exercise) => {
+  const handleExerciseClick = (exercise, day) => {
     setSelectedExercise(exercise);
+    setCurrentDay(day);
     setShowModal(true); // Show the modal when clicked
   };
 
@@ -112,6 +125,19 @@ function HomePage({ onAuthChange }) {
   const closeModal = () => {
     setShowModal(false); // Close the modal
     setSelectedExercise(null); // Reset the selected exercise
+  };
+
+
+  const removeExerciseFromDay = (exercise) => {
+    const updatedData = { ...data };
+    updatedData.data[currentDay] = updatedData.data[currentDay] || [];
+    console.log("test");
+    console.log(exercise);
+    console.log(updatedData.data[currentDay]);
+    updatedData.data[currentDay] = updatedData.data[currentDay].filter((obj) => obj.exercise_id !== exercise.exercise_id);
+    setData(updatedData);
+    console.log(updatedData.data[currentDay]);
+    setShowModal(false); // Close the modal
   };
 
 
@@ -137,7 +163,7 @@ function HomePage({ onAuthChange }) {
                       <div
                         key={exercise.exercise_id}
                         className="exercise-container"
-                        onClick={() => handleExerciseClick(exercise)}
+                        onClick={() => handleExerciseClick(exercise, day)}
                       >
                         <p>{exercise.exercise_name}</p>
                       </div>
@@ -163,6 +189,7 @@ function HomePage({ onAuthChange }) {
             <p>{selectedExercise.exercise_description}</p>
             <p>Reps: {selectedExercise.exercise_reps}</p>
             <button onClick={closeModal}>Close</button>
+            <button className="remove-exercise-btn" onClick={() => removeExerciseFromDay(selectedExercise)}>Remove Exercise</button>
           </div>
         </div>
       )}
@@ -180,7 +207,9 @@ function HomePage({ onAuthChange }) {
           <div className="exercises-list">
           {trainingPlanExercises.length > 0 ? (
               trainingPlanExercises.map((t_exercise) => (
-              <div key={t_exercise.id} className="exercise-container">
+              <div key={t_exercise.id} 
+              className="exercise-container" 
+              onClick={() => handleExerciseSelect(t_exercise)}>
                   <p>{t_exercise.exercise_name}</p>
                   <p>{t_exercise.description}</p>
                   <p>Reps: {t_exercise.reps}</p>
