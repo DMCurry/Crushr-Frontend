@@ -88,12 +88,6 @@ function HomePage({ onAuthChange }) {
       updatedData.data[currentDay].push(add_exercise);
       setData(updatedData);
 
-      // Make an API call to update the server
-      /* axiosInstance.post("/schedule", {
-        day: currentDay,
-        exercise_id: exercise.id, 
-      }); */
-
       setAddModalOpen(false); // Close the modal
     }
   };
@@ -125,6 +119,18 @@ function HomePage({ onAuthChange }) {
   const closeModal = () => {
     setShowModal(false); // Close the modal
     setSelectedExercise(null); // Reset the selected exercise
+  };
+
+
+  const handleSaveScheduleDataClick = async () => {
+    try {
+      // Make an API call to update the server
+      const response = await axiosInstance.put("/schedule", data);
+      setData(response.data);
+    }
+    catch(error){
+      console.error("Error fetching data:", error);
+    }
   };
 
 
@@ -169,11 +175,13 @@ function HomePage({ onAuthChange }) {
                       </div>
                     ))
                   ) : (
-                    <p>No data available</p>
+                    <p>No Exercises</p>
                   )}
                 </div>
               );
             })}
+          <button className="save-schedule-btn" onClick={() => handleSaveScheduleDataClick()}>Save Schedule</button>
+
           </div>
         ) : (
           <p>No data available</p>

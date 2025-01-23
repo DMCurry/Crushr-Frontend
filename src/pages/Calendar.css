@@ -86,6 +86,21 @@
     background-color: #0056b3; /* Darker blue on hover */
   }
   
+  .save-schedule-btn{
+    justify-self: start;
+    grid-column: 1 / -1;
+    background-color: #067e52b9;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .save-schedule-btn:hover {
+    background-color: #034f2f;
+  }
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .calendar-grid {
