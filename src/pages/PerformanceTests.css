@@ -1,0 +1,69 @@
+.performance-tests-page {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .performance-test-add-btn {
+    background-color: #067e52b9;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 24px;
+    left: 24px;
+    position: absolute;
+    top: 10%;
+  }
+
+  .search-bar {
+    width: 50%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .dropdown-menu {
+    width: 50%;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .performance-test-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .performance-test {
+    background: linear-gradient(135deg, #821e7e, #a940a2); /* Blue gradient */
+    color: white; /* Text color for good contrast */
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
+  }
+  
+  .performance-test:hover {
+    transform: translateY(-5px); /* Lift on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  }
+  
+  .performance-test h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .performance-test p {
+    margin: 5px 0;
+    line-height: 1.4;
+  }

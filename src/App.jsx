@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-rou
 import axiosInstance from "./axiosInstance";
 import HomePage from "./pages/HomePage";
 import ExercisesPage from "./pages/ExercisesPage";
+import PerformanceTestsPage from "./pages/PerformanceTestsPage";
 import LoginPage from "./pages/LoginPage";
 import UserSignupPage from "./pages/UserSignupPage";
 import TrainingPlanPage from "./pages/TrainingPlanPage";
@@ -27,6 +28,7 @@ function App() {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/training-plans">Training Plans</Link></li>
           <li><Link to="/exercises">Exercises</Link></li>
+          <li><Link to="/performance-tests">Performance Tests</Link></li>
           {isAuthenticated && (
             <li>
               <Link to="/login" onClick={handleSignOut}>Sign Out</Link>
@@ -38,6 +40,7 @@ function App() {
         <Route path="/" element={<HomePage onAuthChange={setIsAuthenticated} />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/exercises" element={isAuthenticated ? <ExercisesPage /> : <Navigate to="/login"></Navigate>} />
+        <Route path="/performance-tests" element={isAuthenticated ? <PerformanceTestsPage /> : <Navigate to="/login"></Navigate>} />
         <Route path="/training-plans" element={isAuthenticated ? <TrainingPlanPage /> : <Navigate to="/login"></Navigate>} />
         <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<UserSignupPage />} />
