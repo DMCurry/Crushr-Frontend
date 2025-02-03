@@ -81,9 +81,22 @@
     cursor: pointer;
     margin: 5px;
   }
+
+  .performance-test-container {
+    background-color: #a940a2; /* Purple background for the name containers */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+  }
   
   .exercise-container:hover {
     background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  .performance-test-container:hover {
+    background-color: #7d2f78; /* Darker blue on hover */
   }
   
   .save-schedule-btn{

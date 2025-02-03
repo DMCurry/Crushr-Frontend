@@ -14,6 +14,7 @@ function HomePage({ onAuthChange }) {
   const [currentDay, setCurrentDay] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
+  const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
 
 
   // Check authentication status on mount
@@ -56,9 +57,12 @@ function HomePage({ onAuthChange }) {
   };
 
 
-  const handleSelectTrainingPlanExercises = (selectedTrainingPlanExercises) => {
+  const handleSelectTrainingPlanItems = (selectedTrainingPlanExercises, selectedTrainingPlanPerformanceTests) => {
     // Update exercises when a category is selected
     setTrainingPlanExercises(selectedTrainingPlanExercises);
+    
+    // Update performance tests when a category is selected
+    setTrainingPlanPerformanceTests(selectedTrainingPlanPerformanceTests);
   };
 
 
@@ -74,18 +78,43 @@ function HomePage({ onAuthChange }) {
     console.log(exercise);
     // Update state with the new exercise
     const updatedData = { ...data };
-    updatedData.data[currentDay] = updatedData.data[currentDay] || [];
-    var add_exercise = {}
-    add_exercise["exercise_id"] = exercise.id
-    add_exercise["exercise_name"] = exercise.exercise_name
-    add_exercise["exercise_description"] = exercise.description
-    add_exercise["exercise_reps"] = exercise.reps
-    const exists = updatedData.data[currentDay].some((obj) => obj.exercise_id === add_exercise.exercise_id)
+    updatedData.data[currentDay].exercises = updatedData.data[currentDay].exercises || [];
+    var add_exercise = {};
+    add_exercise["exercise_id"] = exercise.id;
+    add_exercise["exercise_name"] = exercise.exercise_name;
+    add_exercise["exercise_description"] = exercise.description;
+    add_exercise["exercise_reps"] = exercise.reps;
+    const exists = updatedData.data[currentDay].exercises.some((obj) => obj.exercise_id === add_exercise.exercise_id);
     console.log(exists);
     console.log(updatedData.data[currentDay]);
     console.log(add_exercise.exercise_id);
     if (!exists) {
-      updatedData.data[currentDay].push(add_exercise);
+      updatedData.data[currentDay].exercises.push(add_exercise);
+      setData(updatedData);
+
+      setAddModalOpen(false); // Close the modal
+    }
+  };
+
+
+  const handlePerformanceTestSelect = (performance_test) => {
+    if (!currentDay || !performance_test) return;
+
+    console.log(performance_test);
+    // Update state with the new exercise
+    const updatedData = { ...data };
+    updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests || [];
+    var add_performance_test = {};
+    add_performance_test["performance_test_id"] = performance_test.id;
+    add_performance_test["performance_test_name"] = performance_test.test_name;
+    add_performance_test["performance_test_description"] = performance_test.description;
+    add_performance_test["performance_test_value"] = performance_test.performance_value;
+    const exists = updatedData.data[currentDay].performance_tests.some((obj) => obj.performance_test_id === add_performance_test.performance_test_id);
+    console.log(exists);
+    console.log(updatedData.data[currentDay]);
+    console.log(add_performance_test.performance_test_id);
+    if (!exists) {
+      updatedData.data[currentDay].performance_tests.push(add_performance_test);
       setData(updatedData);
 
       setAddModalOpen(false); // Close the modal
@@ -154,7 +183,9 @@ function HomePage({ onAuthChange }) {
         data.data ? (
           <div className="calendar-grid">
             {Object.keys(data.data).map((day) => {
-              const dayData = data.data[day];  // This will be an array or null
+              const dayData = data.data[day];
+              const exerciseData = dayData ? dayData.exercises : []; // This will be an array or null
+              const performanceTestData = dayData ? dayData.performance_tests : []; // This will be an array or null
               return (
                 <div key={day} className="calendar-day">
                   <h3>{day}</h3>
@@ -164,8 +195,8 @@ function HomePage({ onAuthChange }) {
                   >
                     +
                   </button>
-                  {dayData && dayData.length > 0 ? (
-                    dayData.map((exercise) => (
+                  {exerciseData && exerciseData.length > 0 ? (
+                    exerciseData.map((exercise) => (
                       <div
                         key={exercise.exercise_id}
                         className="exercise-container"
@@ -176,6 +207,17 @@ function HomePage({ onAuthChange }) {
                     ))
                   ) : (
                     <p>No Exercises</p>
+                  )}
+                  {performanceTestData && performanceTestData.length > 0 ? (
+                    performanceTestData.map((perf_test) => (
+                      <div
+                        key={perf_test.performance_test_id}
+                        className="performance-test-container">
+                        <p>{perf_test.performance_test_name}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No Performance Tests</p>
                   )}
                 </div>
               );
@@ -207,11 +249,11 @@ function HomePage({ onAuthChange }) {
             <h3>Add Exercise to {currentDay}</h3>
             <Dropdown
               plans={trainingPlans}
-              onSelectTrainingPlanExercises={handleSelectTrainingPlanExercises}
+              onSelectTrainingPlanItems={handleSelectTrainingPlanItems}
             />
             <button onClick={() => setAddModalOpen(false)}>Close</button>
           </div>
-                  {/* Display exercises once a category is selected */}
+          {/* Display exercises once a category is selected */}
           <div className="exercises-list">
           {trainingPlanExercises.length > 0 ? (
               trainingPlanExercises.map((t_exercise) => (
@@ -227,6 +269,22 @@ function HomePage({ onAuthChange }) {
               <p>No exercises added for selected plan.</p>
           )}
           </div>
+        {/* Display performance tests once a category is selected */}
+        <div className="peformance-test-list">
+        {trainingPlanPerformanceTests.length > 0 ? (
+            trainingPlanPerformanceTests.map((p_test) => (
+            <div key={p_test.id} 
+            className="performance-test-container"
+            onClick={() => handlePerformanceTestSelect(p_test)}>
+                <p>{p_test.test_name}</p>
+                <p>{p_test.description}</p>
+                <p>Performance Value: {p_test.performance_value}</p>
+            </div>
+            ))
+        ) : (
+            <p>No performance tests added for selected plan.</p>
+        )}
+        </div>
         </div>
       )}
     </div>

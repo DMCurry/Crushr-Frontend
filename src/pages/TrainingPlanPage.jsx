@@ -9,10 +9,14 @@ function TrainingPlanPage(){
   const navigate = useNavigate();
   const [trainingPlans, setTrainingPlans] = useState([]);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
+  const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
 
-  const handleSelectTrainingPlanExercises = (selectedTrainingPlanExercises) => {
+  const handleSelectTrainingPlanItems = (selectedTrainingPlanExercises, selectedTrainingPlanPerformanceTests) => {
     // Update exercises when a category is selected
     setTrainingPlanExercises(selectedTrainingPlanExercises);
+    
+    // Update performance tests when a category is selected
+    setTrainingPlanPerformanceTests(selectedTrainingPlanPerformanceTests);
   };
 
   useEffect( () => {
@@ -36,7 +40,7 @@ function TrainingPlanPage(){
   return (
     <div className="training-plan-page">
         {/* Dropdown to select exercise categories/keys */}
-        <Dropdown plans={trainingPlans} onSelectTrainingPlanExercises={handleSelectTrainingPlanExercises} />
+        <Dropdown plans={trainingPlans} onSelectTrainingPlanItems={handleSelectTrainingPlanItems} />
 
         {/* Display exercises once a category is selected */}
         <div className="exercises-list">
@@ -50,6 +54,20 @@ function TrainingPlanPage(){
             ))
         ) : (
             <p>No exercises added for selected plan.</p>
+        )}
+        </div>
+        {/* Display performance tests once a category is selected */}
+        <div className="peformance-test-list">
+        {trainingPlanPerformanceTests.length > 0 ? (
+            trainingPlanPerformanceTests.map((p_test) => (
+            <div key={p_test.id} className="performance-test-container">
+                <p>{p_test.test_name}</p>
+                <p>{p_test.description}</p>
+                <p>Performance Value: {p_test.performance_value}</p>
+            </div>
+            ))
+        ) : (
+            <p>No performance tests added for selected plan.</p>
         )}
         </div>
     </div>

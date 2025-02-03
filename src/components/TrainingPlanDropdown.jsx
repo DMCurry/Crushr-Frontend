@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-function Dropdown({ plans, onSelectTrainingPlanExercises }) {
+function Dropdown({ plans, onSelectTrainingPlanItems }) {
   const [selectedPlan, setSelectedPlan] = useState(undefined);
 
   const handlePlanChange = (planId) => {
     setSelectedPlan(planId);
     const selectedPlanData = plans.find((plan) => plan.id === parseInt(planId));
-    onSelectTrainingPlanExercises(selectedPlanData ? selectedPlanData.exercises : []);
+    onSelectTrainingPlanItems(selectedPlanData ? selectedPlanData.exercises : [], selectedPlanData ? selectedPlanData.performance_tests : []);
   };
 
   return (
