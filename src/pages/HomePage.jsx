@@ -101,7 +101,7 @@ function HomePage({ onAuthChange }) {
     if (!currentDay || !performance_test) return;
 
     console.log(performance_test);
-    // Update state with the new exercise
+    // Update state with the new performance test
     const updatedData = { ...data };
     updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests || [];
     var add_performance_test = {};
@@ -165,13 +165,13 @@ function HomePage({ onAuthChange }) {
 
   const removeExerciseFromDay = (exercise) => {
     const updatedData = { ...data };
-    updatedData.data[currentDay] = updatedData.data[currentDay] || [];
+    updatedData.data[currentDay].exercises = updatedData.data[currentDay].exercises || [];
     console.log("test");
     console.log(exercise);
-    console.log(updatedData.data[currentDay]);
-    updatedData.data[currentDay] = updatedData.data[currentDay].filter((obj) => obj.exercise_id !== exercise.exercise_id);
+    console.log(updatedData.data[currentDay].exercises);
+    updatedData.data[currentDay].exercises = updatedData.data[currentDay].exercises.filter((obj) => obj.exercise_id !== exercise.exercise_id);
     setData(updatedData);
-    console.log(updatedData.data[currentDay]);
+    console.log(updatedData.data[currentDay].exercises);
     setShowModal(false); // Close the modal
   };
 
