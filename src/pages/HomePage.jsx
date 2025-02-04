@@ -13,6 +13,7 @@ function HomePage({ onAuthChange }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [currentDay, setCurrentDay] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedPerformanceTest, setSelectedPerformanceTest] = useState(null);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
   const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
 
@@ -145,6 +146,13 @@ function HomePage({ onAuthChange }) {
   };
 
 
+  const handlePerformanceTestClick = (p_test, day) => {
+    setSelectedPerformanceTest(p_test);
+    setCurrentDay(day);
+    setShowModal(true); // Show the modal when clicked
+  };
+
+
   const closeModal = () => {
     setShowModal(false); // Close the modal
     setSelectedExercise(null); // Reset the selected exercise
@@ -173,6 +181,20 @@ function HomePage({ onAuthChange }) {
     setData(updatedData);
     console.log(updatedData.data[currentDay].exercises);
     setShowModal(false); // Close the modal
+    setSelectedExercise(null); // De-select the exercise
+  };
+
+  const removePerformanceTestFromDay = (p_test) => {
+    const updatedData = { ...data };
+    updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests || [];
+    console.log("test");
+    console.log(p_test);
+    console.log(updatedData.data[currentDay].performance_tests);
+    updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests.filter((obj) => obj.performance_test_id !== p_test.performance_test_id);
+    setData(updatedData);
+    console.log(updatedData.data[currentDay].performance_tests);
+    setShowModal(false); // Close the modal
+    setSelectedPerformanceTest(null); // De-select the Performance test
   };
 
 
@@ -212,7 +234,9 @@ function HomePage({ onAuthChange }) {
                     performanceTestData.map((perf_test) => (
                       <div
                         key={perf_test.performance_test_id}
-                        className="performance-test-container">
+                        className="performance-test-container"
+                        onClick={() => handlePerformanceTestClick(perf_test, day)}
+                      >
                         <p>{perf_test.performance_test_name}</p>
                       </div>
                     ))
@@ -235,11 +259,19 @@ function HomePage({ onAuthChange }) {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : ""}</h2>
-            <p>{selectedExercise.exercise_description}</p>
-            <p>Reps: {selectedExercise.exercise_reps}</p>
+            <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_name}` : ""}</h2>
+            <p>{selectedExercise ? `${selectedExercise.exercise_description}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_description}` : ""}</p>
+            <p>Reps: {selectedExercise ? `${selectedExercise.exercise_reps}` : "N/A"}</p>
             <button onClick={closeModal}>Close</button>
-            <button className="remove-exercise-btn" onClick={() => removeExerciseFromDay(selectedExercise)}>Remove Exercise</button>
+            <button className="remove-exercise-btn" onClick={() => {
+                if (selectedExercise) {
+                  removeExerciseFromDay(selectedExercise);
+                } else if (selectedPerformanceTest) {
+                  removePerformanceTestFromDay(selectedPerformanceTest);
+                }
+              }}>
+                Remove
+            </button>
           </div>
         </div>
       )}
