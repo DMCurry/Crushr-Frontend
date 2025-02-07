@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from "../axiosInstance";
 import Dropdown from "../components/TrainingPlanDropdown"; // Import the Dropdown component
-import './Calendar.css';
+import './TrainingPlan.css';
 
 
 function TrainingPlanPage(){

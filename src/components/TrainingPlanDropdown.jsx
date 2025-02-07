@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./TrainingPlanDropdown.css"
 
 function Dropdown({ plans, onSelectTrainingPlanItems }) {
   const [selectedPlan, setSelectedPlan] = useState(undefined);
@@ -11,7 +12,7 @@ function Dropdown({ plans, onSelectTrainingPlanItems }) {
 
   return (
     <div className="dropdown-container">
-      <select onChange={(e) => handlePlanChange(e.target.value)} value={selectedPlan}>
+      <select className="custom-select" onChange={(e) => handlePlanChange(e.target.value)} value={selectedPlan}>
         <option value="">Select a workout plan</option>
         {plans.map((plan) => (
           <option key={plan.id} value={plan.id}>

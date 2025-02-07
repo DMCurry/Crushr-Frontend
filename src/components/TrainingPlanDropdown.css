@@ -1,0 +1,42 @@
+.custom-select {
+    appearance: none; /* Removes default browser styles */
+    -webkit-appearance: none; /* Safari */
+    -moz-appearance: none; /* Firefox */
+    background-color: #f0f0f0; /* Light background */
+    border: 2px solid #067e52; /* Green border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    max-width: 250px; /* Adjust width as needed */
+  }
+  
+  /* Add a dropdown arrow */
+  .custom-select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="gray"><path d="M7 10l5 5 5-5H7z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px; /* Space for the arrow */
+    
+  }
+  
+  /* Hover effect */
+  .custom-select:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Focus effect */
+  .custom-select:focus {
+    border-color: #045b3b; /* Darker green */
+    box-shadow: 0 0 5px rgba(6, 126, 82, 0.5);
+  }
+  
+  /* Disabled state */
+  .custom-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
