@@ -298,7 +298,7 @@ function HomePage({ onAuthChange }) {
               </div>
               ))
           ) : (
-              <p>No exercises added for selected plan.</p>
+              <p></p>
           )}
           </div>
         {/* Display performance tests once a category is selected */}
@@ -314,13 +314,13 @@ function HomePage({ onAuthChange }) {
             </div>
             ))
         ) : (
-            <p>No performance tests added for selected plan.</p>
+            <p></p>
         )}
         </div>
         </div>
       )}
-    </div>
-    </div>
+  </div>
+  </div>
   );
 }
 
