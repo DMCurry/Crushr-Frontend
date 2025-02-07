@@ -28,7 +28,7 @@ function App() {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/training-plans">Training Plans</Link></li>
           <li><Link to="/exercises">Exercises</Link></li>
-          <li><Link to="/performance-tests">Performance Tests</Link></li>
+          <li><Link to="/performance-tests">Tests</Link></li>
           {isAuthenticated && (
             <li>
               <Link to="/login" onClick={handleSignOut}>Sign Out</Link>
