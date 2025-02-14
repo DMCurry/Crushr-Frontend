@@ -58,12 +58,15 @@ function HomePage({ onAuthChange }) {
   };
 
 
-  const handleSelectTrainingPlanItems = (selectedTrainingPlanExercises, selectedTrainingPlanPerformanceTests) => {
+  const handleSelectTrainingPlanItems = (selectedTrainingPlan) => {
+    const exercises = selectedTrainingPlan ? selectedTrainingPlan.exercises : [];
+    const performanceTests = selectedTrainingPlan ? selectedTrainingPlan.performance_tests : [];
+    
     // Update exercises when a category is selected
-    setTrainingPlanExercises(selectedTrainingPlanExercises);
+    setTrainingPlanExercises(exercises);
     
     // Update performance tests when a category is selected
-    setTrainingPlanPerformanceTests(selectedTrainingPlanPerformanceTests);
+    setTrainingPlanPerformanceTests(performanceTests);
   };
 
 
@@ -77,8 +80,11 @@ function HomePage({ onAuthChange }) {
     if (!currentDay || !exercise) return;
 
     console.log(exercise);
+
     // Update state with the new exercise
     const updatedData = { ...data };
+    console.log("UPDateDDATA:", updatedData);
+    updatedData.data[currentDay] = updatedData.data[currentDay] || {};
     updatedData.data[currentDay].exercises = updatedData.data[currentDay].exercises || [];
     var add_exercise = {};
     add_exercise["exercise_id"] = exercise.id;
@@ -104,6 +110,7 @@ function HomePage({ onAuthChange }) {
     console.log(performance_test);
     // Update state with the new performance test
     const updatedData = { ...data };
+    updatedData.data[currentDay] = updatedData.data[currentDay] || {};
     updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests || [];
     var add_performance_test = {};
     add_performance_test["performance_test_id"] = performance_test.id;

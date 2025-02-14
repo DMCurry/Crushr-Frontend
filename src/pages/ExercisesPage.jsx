@@ -62,13 +62,17 @@ function ExercisesPage() {
     };
 
 
-  const handleSaveExercise = async (data) => {
+  const handleSaveExercise = async (data, trainingPlanData) => {
       try {
         if (selectedExercise) {
           // Make an API call to update the exercise
           data["id"] = selectedExercise.id; // Needs exercise id to update
           const update_response = await axiosInstance.put("/exercises", data);
           console.log("Saved Update Exercise Data:", update_response.data);
+
+          // Make an API call to add the exercise to the selected training plan
+          const response = await axiosInstance.post("/training-plan/add-exercises", trainingPlanData);
+          console.log("Saved Add Exercise to Training Plan Data:", String(response.data));
         }
         else {
           // Make an API call to add the exercise
@@ -80,7 +84,7 @@ function ExercisesPage() {
         setFilteredExercises(get_response.data);
       }
       catch(error){
-        console.error("Error fetching data:", error);
+        console.error("Error fetching or saving data:", error);
       }
   };
 

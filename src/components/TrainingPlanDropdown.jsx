@@ -7,7 +7,7 @@ function Dropdown({ plans, onSelectTrainingPlanItems }) {
   const handlePlanChange = (planId) => {
     setSelectedPlan(planId);
     const selectedPlanData = plans.find((plan) => plan.id === parseInt(planId));
-    onSelectTrainingPlanItems(selectedPlanData ? selectedPlanData.exercises : [], selectedPlanData ? selectedPlanData.performance_tests : []);
+    onSelectTrainingPlanItems(selectedPlanData);
   };
 
   return (

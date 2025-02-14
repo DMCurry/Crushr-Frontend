@@ -11,12 +11,15 @@ function TrainingPlanPage(){
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
   const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
 
-  const handleSelectTrainingPlanItems = (selectedTrainingPlanExercises, selectedTrainingPlanPerformanceTests) => {
+  const handleSelectTrainingPlanItems = (selectedTrainingPlan) => {
+    const exercises = selectedTrainingPlan ? selectedTrainingPlan.exercises : [];
+    const performanceTests = selectedTrainingPlan ? selectedTrainingPlan.performance_tests : [];
+    
     // Update exercises when a category is selected
-    setTrainingPlanExercises(selectedTrainingPlanExercises);
+    setTrainingPlanExercises(exercises);
     
     // Update performance tests when a category is selected
-    setTrainingPlanPerformanceTests(selectedTrainingPlanPerformanceTests);
+    setTrainingPlanPerformanceTests(performanceTests);
   };
 
   useEffect( () => {
