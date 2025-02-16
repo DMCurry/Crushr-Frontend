@@ -62,13 +62,17 @@ function PerformanceTestsPage() {
     };
 
 
-  const handleSavePerformanceTest = async (data) => {
+  const handleSavePerformanceTest = async (data, trainingPlanData) => {
       try {
         if (selectedPerformanceTest) {
           // Make an API call to update the PerformanceTest
           data["id"] = selectedPerformanceTest.id; // Needs PerformanceTest id to update
           const update_response = await axiosInstance.put("/performance-tests", data);
           console.log("Saved Update PerformanceTest Data:", update_response.data);
+
+          // Make an API call to add the exercise to the selected training plan
+          const response = await axiosInstance.post("/training-plan/add-performance-tests", trainingPlanData);
+          console.log("Saved Add PerformanceTest to Training Plan Data:", String(response.data));
         }
         else {
           // Make an API call to add the PerformanceTest

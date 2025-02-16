@@ -119,6 +119,7 @@ const NewExerciseModal = ({ isOpen, onClose, onSave, exercise }) => {
             placeholder="Enter exercise description"
           />
         </div>
+        <label htmlFor="training_plans">Add this Exercise to a Training Plan:</label>
         <Dropdown
               plans={trainingPlans}
               onSelectTrainingPlanItems={handleSelectTrainingPlan}
