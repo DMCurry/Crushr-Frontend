@@ -11,7 +11,7 @@ const NewExerciseModal = ({ isOpen, onClose, onSave, exercise }) => {
     description: "",
   });
   const [trainingPlans, setTrainingPlans] = useState([]);
-  const [selectedTrainingPlanRequest, setSelectedTrainingPlanRequest] = useState([]);
+  const [selectedTrainingPlanRequest, setSelectedTrainingPlanRequest] = useState(null);
 
 
   // Populate form when exercise data is provided (for updating)
@@ -119,11 +119,17 @@ const NewExerciseModal = ({ isOpen, onClose, onSave, exercise }) => {
             placeholder="Enter exercise description"
           />
         </div>
-        <label htmlFor="training_plans">Add this Exercise to a Training Plan:</label>
-        <Dropdown
+        {exercise && 
+          (<label htmlFor="training_plans">Add this Exercise to a Training Plan:</label>)
+          &&
+          (
+            <Dropdown
               plans={trainingPlans}
               onSelectTrainingPlanItems={handleSelectTrainingPlan}
             />
+          )
+          
+        }
         <div className="modal-actions">
           <button onClick={handleSave} className="save-button">Save</button>
           <button onClick={onClose} className="cancel-button">Cancel</button>

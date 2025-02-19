@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AddTrainingPlanModal.css";
 
 
-const NewTrainingPlanModal = ({ isOpen, onClose, onSave, trainingPlan }) => {
+const NewTrainingPlanModal = ({ isOpen, onClose, onSave, trainingPlan, isAdd }) => {
   const [formData, setFormData] = useState({
     plan_name: ""
   });
@@ -40,9 +40,8 @@ const NewTrainingPlanModal = ({ isOpen, onClose, onSave, trainingPlan }) => {
   return (
     <div className="modal-backdrop">
       <div className="modal-content">
-        <h2>{trainingPlan ? "Edit Training Plan" : "Add Training Plan"}</h2>
+        <h2>{trainingPlan && !isAdd ? "Edit Training Plan Name" : "Add Training Plan"}</h2>
         <div className="form-group">
-          <label htmlFor="plan_name">Name:</label>
           <input
             type="text"
             id="plan_name"

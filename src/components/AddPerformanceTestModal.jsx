@@ -117,11 +117,14 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
             placeholder="Enter performance test description"
           />
         </div>
-        <label htmlFor="training_plans">Add this Performance Test to a Training Plan:</label>
-        <Dropdown
+        { performanceTest && 
+        (<label htmlFor="training_plans">Add this Performance Test to a Training Plan:</label>)
+        &&
+        (<Dropdown
               plans={trainingPlans}
               onSelectTrainingPlanItems={handleSelectTrainingPlan}
-            />
+            />)
+        }
         <div className="modal-actions">
           <button onClick={handleSave} className="performance-save-button">Save</button>
           <button onClick={onClose} className="performance-cancel-button">Cancel</button>

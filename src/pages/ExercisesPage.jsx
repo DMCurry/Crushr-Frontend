@@ -70,9 +70,11 @@ function ExercisesPage() {
           const update_response = await axiosInstance.put("/exercises", data);
           console.log("Saved Update Exercise Data:", update_response.data);
 
-          // Make an API call to add the exercise to the selected training plan
-          const response = await axiosInstance.post("/training-plan/add-exercises", trainingPlanData);
-          console.log("Saved Add Exercise to Training Plan Data:", String(response.data));
+          if (trainingPlanData) {
+            // Make an API call to add the exercise to the selected training plan
+            const response = await axiosInstance.post("/training-plan/add-exercises", trainingPlanData);
+            console.log("Saved Add Exercise to Training Plan Data:", String(response.data));
+          }
         }
         else {
           // Make an API call to add the exercise

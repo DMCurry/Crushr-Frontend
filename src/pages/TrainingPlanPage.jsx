@@ -10,6 +10,7 @@ function TrainingPlanPage(){
   const navigate = useNavigate();
   const [trainingPlans, setTrainingPlans] = useState([]);
   const [showModal, setShowModal] = useState(false); // To show/hide modal
+  const [addClicked, setAddClicked] = useState(false);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
   const [selectedTrainingPlan, setSelectedTrainingPlan] = useState(null); // State var for select exercise
   const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
@@ -50,7 +51,7 @@ function TrainingPlanPage(){
 
   const handleSaveTrainingPlan = async (data) => {
     try {
-      if (selectedTrainingPlan) {
+      if (selectedTrainingPlan && !addClicked) {
         // Make an API call to update the exercise
         data["plan_id"] = selectedTrainingPlan.id; // Needs training plan id to update
         const update_response = await axiosInstance.put("/training-plan", data);
@@ -63,6 +64,7 @@ function TrainingPlanPage(){
       }
       const get_response = await axiosInstance.get("/training-plan");
       setTrainingPlans(get_response.data);
+      setAddClicked(false);
     }
     catch(error){
       console.error("Error fetching or saving data:", error);
@@ -78,15 +80,19 @@ function TrainingPlanPage(){
 
   // Open modal for adding a new training plan
   const handleAddClick = () => {
-    setSelectedTrainingPlan(null); // No training plan means adding a new one
     setShowModal(true);
+    setAddClicked(true);
   }; 
 
+  const handleClose = () => {
+    setShowModal(false);
+    setAddClicked(false);
+  };
 
   return (
     <div className="training-plan-page">
         <button className="training-plan-add-btn" onClick={() => handleAddClick()}> + </button>
-        <button className="training-plan-edit-btn" onClick={() => handleEditClick()}> Edit </button>
+        {selectedTrainingPlan && (<button className="training-plan-edit-btn" onClick={() => handleEditClick()}> * </button>)}
 
         {/* Dropdown to select exercise categories/keys */}
         <Dropdown plans={trainingPlans} onSelectTrainingPlanItems={handleSelectTrainingPlanItems} />
@@ -108,9 +114,10 @@ function TrainingPlanPage(){
 
         <NewTrainingPlanModal
           isOpen={showModal}
-          onClose={() => setShowModal(false)}
+          onClose={handleClose}
           onSave={handleSaveTrainingPlan}
           trainingPlan={selectedTrainingPlan}
+          isAdd={addClicked}
         />
 
         {/* Display performance tests once a category is selected */}
