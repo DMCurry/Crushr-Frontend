@@ -9,11 +9,15 @@ import './TrainingPlan.css';
 function TrainingPlanPage(){
   const navigate = useNavigate();
   const [trainingPlans, setTrainingPlans] = useState([]);
-  const [showModal, setShowModal] = useState(false); // To show/hide modal
+  const [showModal, setShowModal] = useState(false); // To show/hide training plan modal
+  const [showRemoveModal, setShowRemoveModal] = useState(false); // To show/hide remove item modal
   const [addClicked, setAddClicked] = useState(false);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
   const [selectedTrainingPlan, setSelectedTrainingPlan] = useState(null); // State var for select exercise
   const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedPerformanceTest, setSelectedPerformanceTest] = useState(null);
+  
   
 
   const handleSelectTrainingPlanItems = (selectedTrainingPlan) => {
@@ -72,6 +76,39 @@ function TrainingPlanPage(){
   };
 
 
+  const handleExerciseClick = (exercise) => {
+    setSelectedExercise(exercise);
+    setShowRemoveModal(true);
+  };
+
+
+  const handlePerformanceTestClick = (pTest) => {
+    setSelectedPerformanceTest(pTest);
+    setShowRemoveModal(true);
+  };
+
+
+  const removeItem = async (item, type) => {
+    try {
+      var removeItem = {};
+      removeItem["item_id"] = item.id;
+      removeItem["plan_id"] = selectedTrainingPlan.id;
+      removeItem["item_type"] = type;
+      const remove_response = await axiosInstance.put("/training-plan/remove-item", removeItem);
+      console.log("Removed Item from Training Plan:", remove_response.data);
+
+      const get_response = await axiosInstance.get("/training-plan");
+      setTrainingPlans(get_response.data);
+    }
+    catch(error){
+      console.error("Error fetching or saving data:", error);
+    }
+    setShowRemoveModal(false); // Close the modal
+    setSelectedExercise(null); // De-select the exercise
+    setSelectedPerformanceTest(null) // De-select the performance test
+  };
+
+
   // Open modal for editing an existing training plan
   const handleEditClick = () => {
     setShowModal(true);
@@ -84,10 +121,18 @@ function TrainingPlanPage(){
     setAddClicked(true);
   }; 
 
+
   const handleClose = () => {
     setShowModal(false);
     setAddClicked(false);
   };
+
+
+  const closeRemoveModal = () => {
+    setShowRemoveModal(false); // Close the modal
+    setSelectedExercise(null); // Reset the selected exercise
+  };
+
 
   return (
     <div className="training-plan-page">
@@ -101,7 +146,7 @@ function TrainingPlanPage(){
         <div className="exercises-list">
         {trainingPlanExercises.length > 0 ? (
             trainingPlanExercises.map((t_exercise) => (
-            <div key={t_exercise.id} className="exercise-container">
+            <div key={t_exercise.id} className="exercise-container" onClick={() => handleExerciseClick(t_exercise)}>
                 <p>{t_exercise.exercise_name}</p>
                 <p>{t_exercise.description}</p>
                 <p>Reps: {t_exercise.reps}</p>
@@ -120,11 +165,30 @@ function TrainingPlanPage(){
           isAdd={addClicked}
         />
 
+      {showRemoveModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : selectedPerformanceTest ? `${selectedPerformanceTest.test_name}` : ""}</h2>
+            <p>{selectedExercise ? `${selectedExercise.description}` : selectedPerformanceTest ? `${selectedPerformanceTest.description}` : ""}</p>
+            <button onClick={closeRemoveModal}>Close</button>
+            <button className="remove-exercise-btn" onClick={() => {
+                if (selectedExercise) {
+                  removeItem(selectedExercise, 2);
+                } else if (selectedPerformanceTest) {
+                  removeItem(selectedPerformanceTest, 1);
+                }
+              }}>
+                Remove
+            </button>
+          </div>
+        </div>
+      )}
+
         {/* Display performance tests once a category is selected */}
         <div className="peformance-test-list">
         {trainingPlanPerformanceTests.length > 0 ? (
             trainingPlanPerformanceTests.map((p_test) => (
-            <div key={p_test.id} className="performance-test-container">
+            <div key={p_test.id} className="performance-test-container" onClick={() => handlePerformanceTestClick(p_test)}>
                 <p>{p_test.test_name}</p>
                 <p>{p_test.description}</p>
                 <p>Performance Value: {p_test.performance_value}</p>
