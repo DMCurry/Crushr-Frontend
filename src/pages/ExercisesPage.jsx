@@ -91,6 +91,23 @@ function ExercisesPage() {
   };
 
 
+  const handleDeleteExercise = async () => {
+    try {
+      var removeItem = {};
+      removeItem["exercise_id"] = selectedExercise.id;
+      const remove_response = await axiosInstance.delete("/exercises", {params: removeItem});
+      console.log("Delete Exercise from Training Plan:", remove_response.data);
+    }
+    catch(error){
+      console.error("Error fetching or saving data:", error);
+    }
+    const get_response = await axiosInstance.get("/exercises");
+    setExercises(get_response.data);
+    setFilteredExercises(get_response.data);
+    setShowModal(false);
+  };
+
+
   return (
     <div className="exercises-page">
       <h2>Exercises</h2>
@@ -108,6 +125,7 @@ function ExercisesPage() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSave={handleSaveExercise}
+        onDelete={handleDeleteExercise}
         exercise={selectedExercise}
       />
 

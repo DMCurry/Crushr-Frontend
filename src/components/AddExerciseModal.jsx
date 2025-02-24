@@ -4,7 +4,7 @@ import Dropdown from "../components/TrainingPlanDropdown"; // Import the Dropdow
 import "./AddExerciseModal.css";
 
 
-const NewExerciseModal = ({ isOpen, onClose, onSave, exercise }) => {
+const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
   const [formData, setFormData] = useState({
     exercise_name: "",
     reps: "",
@@ -132,6 +132,7 @@ const NewExerciseModal = ({ isOpen, onClose, onSave, exercise }) => {
         }
         <div className="modal-actions">
           <button onClick={handleSave} className="save-button">Save</button>
+          <button onClick={onDelete} className="delete-button">Delete</button>
           <button onClick={onClose} className="cancel-button">Cancel</button>
         </div>
       </div>
