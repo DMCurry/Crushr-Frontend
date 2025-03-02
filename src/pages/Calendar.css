@@ -167,6 +167,21 @@
     }
   }
 
+  .graph-container {
+    border-radius: 16px; /* Curved edges */
+    border: 1px solid #ddd; /* Light border for the container */
+    padding: 20px; /* Space inside the container */
+    margin: 20px; /* Space outside the container */
+    background-color: #f9f9f9; /* Light background color for the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a nice effect */
+  }
+  
+  .graph-container h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px; /* Space between the title and the chart */
+  }
+
+
   .modal {
     position: fixed;
     top: 0;

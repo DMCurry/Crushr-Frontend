@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axiosInstance from "../axiosInstance";
 import Dropdown from "../components/TrainingPlanDropdown"; // Import the Dropdown component
+import PerformanceChart from "../components/PerformanceChart";
 import './Calendar.css';
 
 
@@ -11,6 +12,7 @@ function HomePage({ onAuthChange }) {
   const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false); // To show/hide modal
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [chartsData, setChartsData] = useState([]);
   const [currentDay, setCurrentDay] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [selectedPerformanceTest, setSelectedPerformanceTest] = useState(null);
@@ -49,11 +51,26 @@ function HomePage({ onAuthChange }) {
       const response = await axiosInstance.get("/training-plan");
       setTrainingPlans(response.data);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        // Redirect to the login page if not authenticated
-        navigate("/login");
-      } 
       console.error("Error fetching training_exercises:", error);
+    }
+  };
+
+
+  const fetchChartsData = async () => {
+    try {
+      const response = await axiosInstance.get("/analytics");
+      console.log("responseData", response.data.data);
+      // Format data to fit the chart structure
+      const formattedData = response.data.data.map((item) => ({
+        title: item.test_name,
+        data: item.analytics.map((analytic) => ({
+          name: analytic.test_date,
+          value: analytic.performance_test_result
+        }))
+      }));
+      setChartsData(formattedData);
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
     }
   };
 
@@ -136,6 +153,7 @@ function HomePage({ onAuthChange }) {
       if (isAuthenticated) {
         await fetchData();
         await fetchTrainingPlans();
+        await fetchChartsData();
       }
       else {
         navigate("/login");
@@ -326,6 +344,18 @@ function HomePage({ onAuthChange }) {
         </div>
         </div>
       )}
+  </div>
+  <div>
+      {chartsData.map((chart, index) => (
+        <div className="graph-container" key={index}>
+          <h3>{chart.title}</h3>
+          <PerformanceChart
+            key={index}
+            data={chart.data}
+            lineColor={index % 2 === 0 ? "#ff7300" : "#8884d8"} // Different color for variety
+          />
+        </div>
+      ))}
   </div>
   </div>
   );
