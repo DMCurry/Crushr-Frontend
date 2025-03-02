@@ -300,7 +300,8 @@ function HomePage({ onAuthChange }) {
           </div>
         </div>
       )}
-      {addModalOpen && (
+  </div>
+  {addModalOpen && (
         <div className="add-modal">
           <div className="add-modal-content">
             <h3>Add Exercise to {currentDay}</h3>
@@ -310,8 +311,8 @@ function HomePage({ onAuthChange }) {
             />
             <button onClick={() => setAddModalOpen(false)}>Close</button>
           </div>
+          <div>
           {/* Display exercises once a category is selected */}
-          <div className="exercises-list">
           {trainingPlanExercises.length > 0 ? (
               trainingPlanExercises.map((t_exercise) => (
               <div key={t_exercise.id} 
@@ -325,9 +326,7 @@ function HomePage({ onAuthChange }) {
           ) : (
               <p></p>
           )}
-          </div>
         {/* Display performance tests once a category is selected */}
-        <div className="peformance-test-list">
         {trainingPlanPerformanceTests.length > 0 ? (
             trainingPlanPerformanceTests.map((p_test) => (
             <div key={p_test.id} 
@@ -343,8 +342,7 @@ function HomePage({ onAuthChange }) {
         )}
         </div>
         </div>
-      )}
-  </div>
+  )}
   <div>
       {chartsData.map((chart, index) => (
         <div className="graph-container" key={index}>

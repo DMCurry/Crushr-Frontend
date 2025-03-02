@@ -64,8 +64,10 @@
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto; /* Enables scrolling inside the modal */
+    z-index: 9999;
   }
 
   
@@ -76,6 +78,7 @@
     width: 400px;
     text-align: center;
     justify-content: center;
+    z-index: 10000;
   }
 
   .add-modal-content button{
