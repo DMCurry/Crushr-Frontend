@@ -39,6 +39,7 @@ const LoginPage = () => {
         <div>
           <label>Username:</label>
           <input
+            style={{maxWidth: "400px", marginBottom: "10px"}}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -47,6 +48,7 @@ const LoginPage = () => {
         <div>
           <label>Password:</label>
           <input
+            style={{maxWidth: "400px", marginBottom: "10px"}}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
