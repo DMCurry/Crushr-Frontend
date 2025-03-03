@@ -114,6 +114,21 @@ function TrainingPlanPage(){
     setShowModal(true);
   };
 
+  const handleDeleteClick = async () => {
+    try {
+      var deleteItem = {};
+      deleteItem["training_plan_id"] = selectedTrainingPlan.id;
+      const delete_response = await axiosInstance.delete("/training-plan", {params: deleteItem});
+      console.log("Delete Training Plan:", delete_response.status);
+    }
+    catch(error){
+      console.error("Error fetching or saving data:", error);
+    }
+    const get_response = await axiosInstance.get("/training-plan");
+    setTrainingPlans(get_response.data);
+    navigate("/");
+  };
+
 
   // Open modal for adding a new training plan
   const handleAddClick = () => {
@@ -138,6 +153,7 @@ function TrainingPlanPage(){
     <div className="training-plan-page">
         <button className="training-plan-add-btn" onClick={() => handleAddClick()}> + </button>
         {selectedTrainingPlan && (<button className="training-plan-edit-btn" onClick={() => handleEditClick()}> * </button>)}
+        {selectedTrainingPlan && (<button className="training-plan-delete-btn" onClick={() => handleDeleteClick()}> - </button>)}
 
         {/* Dropdown to select exercise categories/keys */}
         <Dropdown plans={trainingPlans} onSelectTrainingPlanItems={handleSelectTrainingPlanItems} />
