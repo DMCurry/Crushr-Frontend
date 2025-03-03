@@ -12,12 +12,16 @@ function HomePage({ onAuthChange }) {
   const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false); // To show/hide modal
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [testResult, setTestResult] = useState(""); // For setting the performance test result
   const [chartsData, setChartsData] = useState([]);
   const [currentDay, setCurrentDay] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [selectedPerformanceTest, setSelectedPerformanceTest] = useState(null);
   const [trainingPlanExercises, setTrainingPlanExercises] = useState([]);
   const [trainingPlanPerformanceTests, setTrainingPlanPerformanceTests] = useState([]);
+  const [resultSaveSuccess, setResultSaveSuccess] = useState(false);
+  const [scheduleSaveSuccess, setScheduleSaveSuccess] = useState(false);
+
 
 
   // Check authentication status on mount
@@ -181,14 +185,19 @@ function HomePage({ onAuthChange }) {
   const closeModal = () => {
     setShowModal(false); // Close the modal
     setSelectedExercise(null); // Reset the selected exercise
+    setSelectedPerformanceTest(null); // Reset the selected performance test
+    setTestResult("");
   };
 
 
   const handleSaveScheduleDataClick = async () => {
     try {
-      // Make an API call to update the server
+      // Make an API call to update the schedule
       const response = await axiosInstance.put("/schedule", data);
-      setData(response.data);
+      if (response.status === 200) {
+        setScheduleSaveSuccess(true);
+        setData(response.data);
+      }
     }
     catch(error){
       console.error("Error fetching data:", error);
@@ -209,6 +218,7 @@ function HomePage({ onAuthChange }) {
     setSelectedExercise(null); // De-select the exercise
   };
 
+
   const removePerformanceTestFromDay = (p_test) => {
     const updatedData = { ...data };
     updatedData.data[currentDay].performance_tests = updatedData.data[currentDay].performance_tests || [];
@@ -221,6 +231,44 @@ function HomePage({ onAuthChange }) {
     setShowModal(false); // Close the modal
     setSelectedPerformanceTest(null); // De-select the Performance test
   };
+
+
+  const recordTestResult = async () => {
+    try{
+      const requestBody = {
+        test_id: selectedPerformanceTest.performance_test_id,
+        test_value: testResult,
+        date: new Date().toISOString().split("T")[0], // Current date in "YYYY-MM-DD" format
+      };
+      const response = await axiosInstance.post("/analytics", requestBody);
+      if (response.status === 200) {
+        setResultSaveSuccess(true);
+      }
+    }
+    catch(error){
+      console.error("Error saving performance data:", error);
+    }
+    fetchChartsData();
+  };
+
+
+  // Function to handle timed disappearing save success messages
+  useEffect(() => {
+    let resultTimer, scheduleTimer;
+
+    if (resultSaveSuccess) {
+      resultTimer = setTimeout(() => setResultSaveSuccess(false), 2000);
+    }
+
+    if (scheduleSaveSuccess) {
+      scheduleTimer = setTimeout(() => setScheduleSaveSuccess(false), 2000);
+    }
+
+    return () => {
+      clearTimeout(resultTimer);
+      clearTimeout(scheduleTimer);
+    };
+  }, [resultSaveSuccess, scheduleSaveSuccess]);
 
 
   return (
@@ -272,6 +320,7 @@ function HomePage({ onAuthChange }) {
               );
             })}
           <button className="save-schedule-btn" onClick={() => handleSaveScheduleDataClick()}>Save Schedule</button>
+          {scheduleSaveSuccess && <span style={{ marginLeft: "2px", color: "green" }}>Saved Schedule</span>}
 
           </div>
         ) : (
@@ -287,6 +336,20 @@ function HomePage({ onAuthChange }) {
             <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_name}` : ""}</h2>
             <p>{selectedExercise ? `${selectedExercise.exercise_description}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_description}` : ""}</p>
             <p>Reps: {selectedExercise ? `${selectedExercise.exercise_reps}` : "N/A"}</p>
+            {selectedPerformanceTest && (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter test result"
+                  value={testResult}
+                  onChange={(e) => setTestResult(e.target.value)}
+                />
+                <button onClick={recordTestResult}>
+                  Submit Result
+                </button>
+                {resultSaveSuccess && <span style={{ marginLeft: "2px", color: "green" }}>Saved Result</span>}
+              </div>
+            )}
             <button onClick={closeModal}>Close</button>
             <button className="remove-exercise-btn" onClick={() => {
                 if (selectedExercise) {
