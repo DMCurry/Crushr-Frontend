@@ -44,7 +44,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
     };
 
     fetchTrainingPlans();
-  }, []);
+  }, [isOpen]);
 
 
   const setTrainingPlanItems = async (exerciseIds, trainingPlanId) => {
