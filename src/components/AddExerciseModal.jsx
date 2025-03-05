@@ -11,6 +11,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
     description: "",
   });
   const [trainingPlans, setTrainingPlans] = useState([]);
+  const [exerciseTrainingPlans, setExerciseTrainingPlans] = useState([]);
   const [selectedTrainingPlanRequest, setSelectedTrainingPlanRequest] = useState(null);
 
 
@@ -22,6 +23,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
         reps: exercise.reps || "",
         description: exercise.description || "",
       });
+      fetchExerciseTrainingPlans();
     } else {
       setFormData({ exercise_name: "", reps: "", description: "" });
     }
@@ -39,12 +41,27 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
             // Redirect to the login page if not authenticated
             navigate("/login");
         } 
-        console.error("Error fetching training_exercises:", error);
+        console.error("Error fetching training plans:", error);
         }
     };
 
     fetchTrainingPlans();
   }, [isOpen]);
+
+
+  const fetchExerciseTrainingPlans = async () => {
+      try {
+      const response = await axiosInstance.get("exercises/training-plans", {params: {exercise_id: exercise.id}});
+      setExerciseTrainingPlans(response.data);
+      console.log(String(response.data));
+      } catch (error) {
+      if (error.response && error.response.status === 401) {
+          // Redirect to the login page if not authenticated
+          navigate("/login");
+      } 
+      console.error("Error fetching exercise training plans:", error);
+      }
+  };
 
 
   const setTrainingPlanItems = async (exerciseIds, trainingPlanId) => {
@@ -119,6 +136,12 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
             placeholder="Enter exercise description"
           />
         </div>
+        {exerciseTrainingPlans.length > 0 && <p>Currently Added to:</p>}
+        {exerciseTrainingPlans.length > 0 && (
+          exerciseTrainingPlans.map((trainingPlan) => (
+              <p>{trainingPlan.plan_name}</p>
+          ))
+        )}
         {exercise && 
           (<label htmlFor="training_plans">Add this Exercise to a Training Plan:</label>)
           &&
