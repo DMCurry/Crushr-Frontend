@@ -18,7 +18,6 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
     if (performanceTest) {
       setFormData({
         test_name: performanceTest.test_name || "",
-        performance_value: performanceTest.performance_value || "",
         description: performanceTest.description || "",
       });
     } else {
@@ -94,17 +93,6 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
             value={formData.test_name}
             onChange={handleChange}
             placeholder="Enter performance test name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="performance_value">Performance Value:</label>
-          <input
-            type="number"
-            id="performance_value"
-            name="performance_value"
-            value={formData.performance_value}
-            onChange={handleChange}
-            placeholder="Enter performance value"
           />
         </div>
         <div className="form-group">
