@@ -4,14 +4,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
+    max-width: 100%;
   }
   
   .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
-    gap: 10px;
+    grid-template-columns: repeat(7, minmax(80px, 1fr)); /* 7 columns for each day of the week */
+    gap: 5px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
   }
   
   .calendar-day {
