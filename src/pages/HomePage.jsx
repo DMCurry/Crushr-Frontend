@@ -112,6 +112,7 @@ function HomePage({ onAuthChange }) {
     add_exercise["exercise_name"] = exercise.exercise_name;
     add_exercise["exercise_description"] = exercise.description;
     add_exercise["exercise_reps"] = exercise.reps;
+    add_exercise["exercise_sets"] = exercise.sets;
     const exists = updatedData.data[currentDay].exercises.some((obj) => obj.exercise_id === add_exercise.exercise_id);
     console.log(exists);
     console.log(updatedData.data[currentDay]);
@@ -336,6 +337,7 @@ function HomePage({ onAuthChange }) {
             <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_name}` : ""}</h2>
             <p>{selectedExercise ? `${selectedExercise.exercise_description}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_description}` : ""}</p>
             <p>Reps: {selectedExercise ? `${selectedExercise.exercise_reps}` : "N/A"}</p>
+            <p>Sets: {selectedExercise ? `${selectedExercise.exercise_sets}` : "N/A"}</p>
             {selectedPerformanceTest && (
               <div>
                 <input
@@ -384,6 +386,7 @@ function HomePage({ onAuthChange }) {
                   <p>{t_exercise.exercise_name}</p>
                   <p>{t_exercise.description}</p>
                   <p>Reps: {t_exercise.reps}</p>
+                  <p>Sets: {t_exercise.sets}</p>
               </div>
               ))
           ) : (

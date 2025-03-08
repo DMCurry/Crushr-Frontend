@@ -8,6 +8,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
   const [formData, setFormData] = useState({
     exercise_name: "",
     reps: "",
+    sets: "",
     description: "",
   });
   const [trainingPlans, setTrainingPlans] = useState([]);
@@ -21,11 +22,12 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
       setFormData({
         exercise_name: exercise.exercise_name || "",
         reps: exercise.reps || "",
+        sets: exercise.sets || "",
         description: exercise.description || "",
       });
       fetchExerciseTrainingPlans();
     } else {
-      setFormData({ exercise_name: "", reps: "", description: "" });
+      setFormData({ exercise_name: "", reps: "", sets: "", description: "" });
     }
   }, [exercise, isOpen]); // Runs when exercise changes
 
@@ -124,6 +126,17 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
             value={formData.reps}
             onChange={handleChange}
             placeholder="Enter number of reps"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="sets">Sets:</label>
+          <input
+            type="number"
+            id="sets"
+            name="sets"
+            value={formData.sets}
+            onChange={handleChange}
+            placeholder="Enter number of sets"
           />
         </div>
         <div className="form-group">

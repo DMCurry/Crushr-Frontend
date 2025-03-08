@@ -136,6 +136,7 @@ function ExercisesPage() {
             <h3>{exercise.exercise_name}</h3>
             <p><strong>Description:</strong> {exercise.description}</p>
             <p><strong>Reps:</strong> {exercise.reps}</p>
+            <p><strong>Sets:</strong> {exercise.sets}</p>
           </div>
         ))}
       </div>

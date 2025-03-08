@@ -166,6 +166,7 @@ function TrainingPlanPage(){
                 <p>{t_exercise.exercise_name}</p>
                 <p>{t_exercise.description}</p>
                 <p>Reps: {t_exercise.reps}</p>
+                <p>Sets: {t_exercise.sets}</p>
             </div>
             ))
         ) : (
