@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axiosInstance from "../axiosInstance";
-
+import Title from "../components/Title";
 
 const UserSignupPage = () => {
   const [formData, setFormData] = useState({
@@ -35,12 +35,14 @@ const UserSignupPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
+      <Title/>
       <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>
           <input
+            style={{maxWidth: "400px", marginBottom: "10px"}}
             type="text"
             name="username"
             value={formData.username}
@@ -51,6 +53,7 @@ const UserSignupPage = () => {
         <div>
           <label>Password:</label>
           <input
+            style={{maxWidth: "400px", marginBottom: "10px"}}
             type="password"
             name="password"
             value={formData.password}
@@ -61,6 +64,7 @@ const UserSignupPage = () => {
         <div>
           <label>Email:</label>
           <input
+            style={{maxWidth: "400px", marginBottom: "10px"}}
             type="email"
             name="email"
             value={formData.email}

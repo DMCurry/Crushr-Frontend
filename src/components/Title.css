@@ -1,0 +1,40 @@
+/* Basic Container for Title */
+.signup-title-container {
+    display: flex;
+    justify-content: flex-start; /* Align the title to the left */
+    align-items: center;
+    margin-top: 2rem; /* Add some spacing above the title */
+    margin-bottom: 2rem; /* Space below the title so it doesn't touch the form */
+    padding-left: 1rem; /* Adds some space from the left edge */
+  }
+  
+  /* Title Style */
+  .signup-title {
+    font-family: "Impact", sans-serif; /* Modern, bold block font */
+    font-size: 3rem; /* Increase the size of the text */
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #fff; /* Ensure text is white by default */
+    text-transform: uppercase; /* Make the text uppercase for better impact */
+  }
+  
+  /* Color classes */
+  .blue { color: blue; }
+  .orange { color: orange; }
+  .purple { color: purple; }
+  .green { color: green; }
+  .red { color: red; }
+  
+  /* Styling for each letter */
+  .letter {
+    display: inline-block;
+    padding: 0 0.2rem; /* Add some spacing between letters */
+  }
+  
+  /* Optional: add margin for a cleaner look */
+  .signup-title span {
+    margin-right: 10px;
+  }

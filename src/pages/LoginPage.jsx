@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
+import Title from "../components/Title";
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -34,6 +36,7 @@ const LoginPage = () => {
 
   return (
     <div style={{ padding: "20px" }}>
+      <Title/>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
