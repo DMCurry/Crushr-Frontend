@@ -23,19 +23,32 @@ function App() {
 
   return (
     <Router>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/training-plans">Training Plans</Link></li>
-          <li><Link to="/exercises">Exercises</Link></li>
-          <li><Link to="/performance-tests">Tests</Link></li>
-          {isAuthenticated && (
-            <li>
-              <Link to="/login" onClick={handleSignOut}>Sign Out</Link>
-            </li>
-          )}
-        </ul>
-      </nav>
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/training-plans">Training Plans</Link></li>
+            <li><Link to="/exercises">Exercises</Link></li>
+            <li><Link to="/performance-tests">Tests</Link></li>
+            {isAuthenticated && (
+              <li>
+                <Link to="/login" onClick={handleSignOut}>Sign Out</Link>
+              </li>
+            )}
+          </ul>
+        </nav>
+        <style>
+        {`
+          @media (max-width: 768px) {
+            nav {
+              font-size: 1.2rem; /* Smaller font size for logo */
+            }
+
+            nav ul li a {
+              font-size: 0.9rem; /* Smaller font size for navbar items */
+            }
+          }
+        `}
+      </style>
       <Routes>
         <Route path="/" element={<HomePage onAuthChange={setIsAuthenticated} />} />
         <Route path="/login" element={<LoginPage />} />

@@ -8,14 +8,14 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   cursor: pointer;
   font-size: 24px;
   left: 24px;
   position: absolute;
-  top: 5%;
+  top: 10%;
 }
 
 .training-plan-edit-btn {
@@ -23,14 +23,14 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   cursor: pointer;
   font-size: 24px;
   left: 84px;
   position: absolute;
-  top: 5%;
+  top: 10%;
 }
 
 .training-plan-delete-btn {
@@ -38,12 +38,12 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   text-align: center;
   cursor: pointer;
   font-size: 24px;
   left: 144px;
   position: absolute;
-  top: 5%;
+  top: 10%;
 }
