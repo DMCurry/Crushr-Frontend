@@ -272,6 +272,22 @@ function HomePage({ onAuthChange }) {
   }, [resultSaveSuccess, scheduleSaveSuccess]);
 
 
+  useEffect(() => {
+    if (addModalOpen) {
+      // Disable scroll on body when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Enable scroll again when modal is closed
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      // Cleanup on component unmount
+      document.body.style.overflow = 'auto';
+    };
+  }, [addModalOpen]);
+
+
   return (
     <div>
       <div className="calendar-container">
