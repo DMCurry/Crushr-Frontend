@@ -106,6 +106,8 @@ function TrainingPlanPage(){
     setShowRemoveModal(false); // Close the modal
     setSelectedExercise(null); // De-select the exercise
     setSelectedPerformanceTest(null) // De-select the performance test
+    navigate("/temp"); // Navigate to a temporary fake route
+    setTimeout(() => navigate("/training-plans"), 0); // Quickly go back to refresh page without losing jwt
   };
 
 
