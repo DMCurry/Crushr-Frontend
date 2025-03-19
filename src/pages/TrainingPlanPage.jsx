@@ -38,8 +38,8 @@ function TrainingPlanPage(){
     const fetchTrainingPlans = async () => {
         try {
         const response = await axiosInstance.get("/training-plan");
-        setTrainingPlans(response.data);
-        console.log(String(response.data));
+        setTrainingPlans(response.data.plans);
+        console.log(String(response.data.plans));
         } catch (error) {
         if (error.response && error.response.status === 401) {
             // Redirect to the login page if not authenticated
@@ -67,7 +67,7 @@ function TrainingPlanPage(){
         console.log("Saved Add Exercise Data:", add_response.data);
       }
       const get_response = await axiosInstance.get("/training-plan");
-      setTrainingPlans(get_response.data);
+      setTrainingPlans(get_response.data.plans);
       setAddClicked(false);
     }
     catch(error){
@@ -98,7 +98,7 @@ function TrainingPlanPage(){
       console.log("Removed Item from Training Plan:", remove_response.data);
 
       const get_response = await axiosInstance.get("/training-plan");
-      setTrainingPlans(get_response.data);
+      setTrainingPlans(get_response.data.plans);
     }
     catch(error){
       console.error("Error fetching or saving data:", error);
@@ -125,7 +125,7 @@ function TrainingPlanPage(){
       console.error("Error fetching or saving data:", error);
     }
     const get_response = await axiosInstance.get("/training-plan");
-    setTrainingPlans(get_response.data);
+    setTrainingPlans(get_response.data.plans);
     navigate("/");
   };
 

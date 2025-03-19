@@ -25,21 +25,23 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
     }
   }, [performanceTest, isOpen]); // Runs when performance_test changes
 
-  useEffect( () => {
-    const fetchTrainingPlans = async () => {
-        try {
-        const response = await axiosInstance.get("/training-plan");
-        setTrainingPlans(response.data);
-        console.log(String(response.data));
-        } catch (error) {
-        if (error.response && error.response.status === 401) {
-            // Redirect to the login page if not authenticated
-            navigate("/login");
-        } 
-        console.error("Error fetching training_exercises:", error);
-        }
-    };
 
+  const fetchTrainingPlans = async () => {
+    try {
+    const response = await axiosInstance.get("/training-plan");
+    setTrainingPlans(response.data.plans);
+    console.log(String(response.data));
+    } catch (error) {
+    if (error.response && error.response.status === 401) {
+        // Redirect to the login page if not authenticated
+        navigate("/login");
+    } 
+    console.error("Error fetching training_exercises:", error);
+    }
+};
+
+
+  useEffect( () => {
     fetchTrainingPlans();
   }, []);
 
@@ -56,8 +58,10 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
   const handleSelectTrainingPlan = (selectedTrainingPlan) => {
     if (performanceTest && selectedTrainingPlan) {
       // First we want to make a new array tht has the existing perf test ids plus the current selected exercise's id
-      const updatedPerformanceTests = [performanceTest.id, ...(selectedTrainingPlan?.performance_tests?.length ? selectedTrainingPlan.performance_tests.map(obj => obj.id) : [])]
-      setTrainingPlanItems(updatedPerformanceTests, selectedTrainingPlan.id);
+      console.log("CurrentTrainingPlanTests:", selectedTrainingPlan.performance_tests);
+      const newPerformanceTests = [performanceTest.id]
+      console.log("CombinedTrainingPlanTests:", newPerformanceTests);
+      setTrainingPlanItems(newPerformanceTests, selectedTrainingPlan.id);
     }
   };
 
@@ -73,6 +77,7 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
 
   const handleSave = () => {
     onSave(formData, selectedTrainingPlanRequest);
+    fetchTrainingPlans();
     onClose();
   };
 
