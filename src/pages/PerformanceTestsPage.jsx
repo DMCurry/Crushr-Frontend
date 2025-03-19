@@ -91,6 +91,23 @@ function PerformanceTestsPage() {
   };
 
 
+  const handleDeletePerformanceTest = async () => {
+    try {
+      var removeItem = {};
+      removeItem["test_id"] = selectedPerformanceTest.id;
+      const remove_response = await axiosInstance.delete("/performance-tests", {params: removeItem});
+      console.log("Delete Performance Test from Training Plan:", remove_response.data);
+    }
+    catch(error){
+      console.error("Error fetching or saving data:", error);
+    }
+    const get_response = await axiosInstance.get("/performance-tests");
+    setPerformanceTests(get_response.data);
+    setFilteredPerformanceTests(get_response.data);
+    setShowModal(false);
+  };
+
+
   return (
     <div className="performance-tests-page">
       <h2>Performance Tests</h2>
@@ -108,6 +125,7 @@ function PerformanceTestsPage() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSave={handleSavePerformanceTest}
+        onDelete={handleDeletePerformanceTest}
         performanceTest={selectedPerformanceTest}
       />
 

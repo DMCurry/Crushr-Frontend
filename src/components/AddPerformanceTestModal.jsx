@@ -3,7 +3,7 @@ import axiosInstance from "../axiosInstance";
 import Dropdown from "../components/TrainingPlanDropdown"; // Import the Dropdown component
 import "./AddPerformanceTestModal.css";
 
-const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) => {
+const NewPerformanceTestModal = ({ isOpen, onDelete, onClose, onSave, performanceTest }) => {
   const [formData, setFormData] = useState({
     test_name: "",
     performance_value: "",
@@ -120,6 +120,7 @@ const NewPerformanceTestModal = ({ isOpen, onClose, onSave, performanceTest }) =
         }
         <div className="modal-actions">
           <button onClick={handleSave} className="performance-save-button">Save</button>
+          <button onClick={onDelete} className="delete-button">Delete</button>
           <button onClick={onClose} className="performance-cancel-button">Cancel</button>
         </div>
       </div>

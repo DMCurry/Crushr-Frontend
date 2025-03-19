@@ -53,7 +53,7 @@ function HomePage({ onAuthChange }) {
   const fetchTrainingPlans = async () => {
     try {
       const response = await axiosInstance.get("/training-plan");
-      setTrainingPlans(response.data);
+      setTrainingPlans(response.data.plans);
     } catch (error) {
       console.error("Error fetching training_exercises:", error);
     }
@@ -110,9 +110,9 @@ function HomePage({ onAuthChange }) {
     var add_exercise = {};
     add_exercise["exercise_id"] = exercise.id;
     add_exercise["exercise_name"] = exercise.exercise_name;
-    add_exercise["exercise_description"] = exercise.description;
-    add_exercise["exercise_reps"] = exercise.reps;
-    add_exercise["exercise_sets"] = exercise.sets;
+    add_exercise["exercise_description"] = exercise.exercise_description;
+    add_exercise["exercise_reps"] = exercise.exercise_reps;
+    add_exercise["exercise_sets"] = exercise.exercise_sets;
     const exists = updatedData.data[currentDay].exercises.some((obj) => obj.exercise_id === add_exercise.exercise_id);
     console.log(exists);
     console.log(updatedData.data[currentDay]);
@@ -138,7 +138,7 @@ function HomePage({ onAuthChange }) {
     add_performance_test["performance_test_id"] = performance_test.id;
     add_performance_test["performance_test_name"] = performance_test.test_name;
     add_performance_test["performance_test_description"] = performance_test.description;
-    add_performance_test["performance_test_value"] = performance_test.performance_value;
+    add_performance_test["performance_test_value"] = 1;
     const exists = updatedData.data[currentDay].performance_tests.some((obj) => obj.performance_test_id === add_performance_test.performance_test_id);
     console.log(exists);
     console.log(updatedData.data[currentDay]);
@@ -400,9 +400,9 @@ function HomePage({ onAuthChange }) {
               className="exercise-container" 
               onClick={() => handleExerciseSelect(t_exercise)}>
                   <p>{t_exercise.exercise_name}</p>
-                  <p>{t_exercise.description}</p>
-                  <p>Reps: {t_exercise.reps}</p>
-                  <p>Sets: {t_exercise.sets}</p>
+                  <p>{t_exercise.exercise_description}</p>
+                  <p>Reps: {t_exercise.exercise_reps}</p>
+                  <p>Sets: {t_exercise.exercise_sets}</p>
               </div>
               ))
           ) : (
@@ -416,7 +416,6 @@ function HomePage({ onAuthChange }) {
             onClick={() => handlePerformanceTestSelect(p_test)}>
                 <p>{p_test.test_name}</p>
                 <p>{p_test.description}</p>
-                <p>Performance Value: {p_test.performance_value}</p>
             </div>
             ))
         ) : (

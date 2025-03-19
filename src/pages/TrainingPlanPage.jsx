@@ -164,9 +164,9 @@ function TrainingPlanPage(){
             trainingPlanExercises.map((t_exercise) => (
             <div key={t_exercise.id} className="exercise-container" onClick={() => handleExerciseClick(t_exercise)}>
                 <p>{t_exercise.exercise_name}</p>
-                <p>{t_exercise.description}</p>
-                <p>Reps: {t_exercise.reps}</p>
-                <p>Sets: {t_exercise.sets}</p>
+                <p>{t_exercise.exercise_description}</p>
+                <p>Reps: {t_exercise.exercise_reps}</p>
+                <p>Sets: {t_exercise.exercise_sets}</p>
             </div>
             ))
         ) : (
@@ -186,7 +186,7 @@ function TrainingPlanPage(){
         <div className="modal">
           <div className="modal-content">
             <h2>{selectedExercise ? `${selectedExercise.exercise_name}` : selectedPerformanceTest ? `${selectedPerformanceTest.test_name}` : ""}</h2>
-            <p>{selectedExercise ? `${selectedExercise.description}` : selectedPerformanceTest ? `${selectedPerformanceTest.description}` : ""}</p>
+            <p>{selectedExercise ? `${selectedExercise.exercise_description}` : selectedPerformanceTest ? `${selectedPerformanceTest.description}` : ""}</p>
             <button onClick={closeRemoveModal}>Close</button>
             <button className="remove-exercise-btn" onClick={() => {
                 if (selectedExercise) {
@@ -208,7 +208,6 @@ function TrainingPlanPage(){
             <div key={p_test.id} className="performance-test-container" onClick={() => handlePerformanceTestClick(p_test)}>
                 <p>{p_test.test_name}</p>
                 <p>{p_test.description}</p>
-                <p>Performance Value: {p_test.performance_value}</p>
             </div>
             ))
         ) : (

@@ -36,7 +36,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
     const fetchTrainingPlans = async () => {
         try {
         const response = await axiosInstance.get("/training-plan");
-        setTrainingPlans(response.data);
+        setTrainingPlans(response.data.plans);
         console.log(String(response.data));
         } catch (error) {
         if (error.response && error.response.status === 401) {
