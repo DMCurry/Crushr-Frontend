@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-	baseURL: "http://143.198.235.252:8000", // Replace with your backend URL
+	baseURL: import.meta.env.VITE_API_BASE_URL, // get correct URL from env
   withCredentials: true, // Ensure cookies are included in requests
 });
 
