@@ -72,3 +72,47 @@
   font-size: unset;
   text-align: unset;
 }
+
+.exercises-list {
+  display:flex;
+  flex-direction:column;
+  gap: 12px; /* spacing between boxes */
+  align-items:center; /* center the items if you reduce width */
+  width: 100%;
+}
+
+
+
+.performance-test-list {
+  display:flex;
+  flex-direction:column;
+  gap: 12px; /* spacing between boxes */
+  align-items:center; /* center the items if you reduce width */
+  width: 100%;
+}
+
+.exercise-container,
+.performance-test-container {
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto 12px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.exercise-container:hover,
+.performance-test-container:hover {
+  transform: scale(1.02);
+}
+
+.exercise-container {
+  background-color: #007BFF; /* bright blue */
+}
+
+.performance-test-container {
+  background-color: #a940a2; /* purple-pink tone */
+}
