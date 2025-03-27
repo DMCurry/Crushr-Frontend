@@ -67,18 +67,18 @@
   
   .add-modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0; /* replaces top: 0, left: 0, width, height */
     background: rgba(0, 0, 0, 0.5);
+    display:grid;
     justify-content: center;
     align-items: center;
-    display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Enables scrolling inside the modal */
+    overflow-y: auto;
     z-index: 9999;
+    padding: 2rem; /* adds space around modal on smaller screens */
+    box-sizing: border-box;
   }
+  
 
   
   .add-modal-content {
@@ -177,6 +177,13 @@
   
     .calendar-day h3 {
       font-size: 1em;
+    }
+  }
+
+  @media (max-height: 500px) {
+    .add-modal-content {
+      max-height: 80vh;
+      padding: 10px;
     }
   }
 
