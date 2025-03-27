@@ -111,7 +111,7 @@ function ExercisesPage() {
   return (
     <div className="exercises-page">
       <h2>Exercises</h2>
-      <button className="exercise-add-btn" onClick={() => handleAddClick()}> + </button>
+      <button className="exercise-add-btn" onClick={() => handleAddClick()}/>
       {/* Search Bar */}
       <input
         type="text"

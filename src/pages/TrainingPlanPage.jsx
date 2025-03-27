@@ -153,9 +153,9 @@ function TrainingPlanPage(){
 
   return (
     <div className="training-plan-page">
-        <button className="training-plan-add-btn" onClick={() => handleAddClick()}> + </button>
-        {selectedTrainingPlan && (<button className="training-plan-edit-btn" onClick={() => handleEditClick()}> * </button>)}
-        {selectedTrainingPlan && (<button className="training-plan-delete-btn" onClick={() => handleDeleteClick()}> - </button>)}
+        <button className="training-plan-add-btn" onClick={() => handleAddClick()}/>
+        {selectedTrainingPlan && (<button className="training-plan-edit-btn" onClick={() => handleEditClick()}/>)}
+        {selectedTrainingPlan && (<button className="training-plan-delete-btn" onClick={() => handleDeleteClick()}/>)}
 
         {/* Dropdown to select exercise categories/keys */}
         <Dropdown plans={trainingPlans} onSelectTrainingPlanItems={handleSelectTrainingPlanItems} />

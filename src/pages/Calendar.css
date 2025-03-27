@@ -46,15 +46,23 @@
   }
   
   .add-exercise-btn {
-    background-color: #067e52b9;
-    color: white;
+    background-color: transparent; /* remove background color */
+    background-image: url('../assets/Add.png'); /* image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
     border: none;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    text-align: center;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     margin-top: 10px;
+  
+    /* remove text styles */
+    color: unset;
+    font-size: unset;
+    text-align: unset;
   }
   
   .add-modal {

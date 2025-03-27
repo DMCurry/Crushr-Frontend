@@ -304,9 +304,7 @@ function HomePage({ onAuthChange }) {
                   <button
                     className="add-exercise-btn"
                     onClick={() => handleAddExercise(day)}
-                  >
-                    +
-                  </button>
+                 />
                   {exerciseData && exerciseData.length > 0 ? (
                     exerciseData.map((exercise) => (
                       <div

@@ -1,5 +1,7 @@
 import React from "react";
 import "./Title.css"; // Import CSS for styles
+import crushr from "../assets/Crushr.png"
+
 
 export default function Title() {
     const colors = ["blue", "orange", "purple", "green", "red"];
@@ -8,15 +10,9 @@ export default function Title() {
     return (
       <div className="signup-title-container">
         <h1 className="signup-title">
-          {title.map((char, index) => (
-            <span
-              key={index}
-              className={`letter ${colors[index % colors.length]}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {char}
-            </span>
-          ))}
+          <img src={crushr}
+          alt={"CRUSHR"}
+          style={{ width: '200px', height: '200px' }}/>
         </h1>
       </div>
     );

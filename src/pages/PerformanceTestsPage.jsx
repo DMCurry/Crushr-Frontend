@@ -111,7 +111,7 @@ function PerformanceTestsPage() {
   return (
     <div className="performance-tests-page">
       <h2>Performance Tests</h2>
-      <button className="performance-test-add-btn" onClick={() => handleAddClick()}> + </button>
+      <button className="performance-test-add-btn" onClick={() => handleAddClick()}/>
       {/* Search Bar */}
       <input
         type="text"
