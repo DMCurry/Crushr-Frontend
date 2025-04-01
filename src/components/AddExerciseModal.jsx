@@ -149,8 +149,8 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
             placeholder="Enter exercise description"
           />
         </div>
-        {exerciseTrainingPlans.length > 0 && <p>Currently Added to:</p>}
-        {exerciseTrainingPlans.length > 0 && (
+        {exerciseTrainingPlans.length > 0 && exercise && <p>Currently Added to:</p>}
+        {exerciseTrainingPlans.length > 0 && exercise && (
           exerciseTrainingPlans.map((trainingPlan) => (
               <p>{trainingPlan.plan_name}</p>
           ))
