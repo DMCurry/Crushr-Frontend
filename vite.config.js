@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     base: '/',
     server: {
-      host: '0.0.0.0',   // 🔥 So you can access via IP or localhost
+      host: '0.0.0.0',   // So you can access via IP or localhost
       port: 5173,
     },
     define: {
@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'dist',
-      sourcemap: true,
+      sourcemap: false, // Change to true if wanting to debug to see og source code in broswer
     },
   }
 })
