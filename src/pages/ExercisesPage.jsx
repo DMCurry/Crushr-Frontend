@@ -137,6 +137,7 @@ function ExercisesPage() {
             <p><strong>Description:</strong> {exercise.description}</p>
             <p><strong>Reps:</strong> {exercise.reps}</p>
             <p><strong>Sets:</strong> {exercise.sets}</p>
+            <p><strong>Media Link:</strong>  { exercise.link ? <a href={`${exercise.exercise_link}`}>Link</a> : "N/A"}</p>
           </div>
         ))}
       </div>

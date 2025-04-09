@@ -169,6 +169,7 @@ function TrainingPlanPage(){
                 <p>{t_exercise.exercise_description}</p>
                 <p>Reps: {t_exercise.exercise_reps}</p>
                 <p>Sets: {t_exercise.exercise_sets}</p>
+                <p>Media Link: {t_exercise.exercise_link ? <a href={`${t_exercise.exercise_link}`}>Link</a> : "N/A"}</p>
             </div>
             ))
         ) : (

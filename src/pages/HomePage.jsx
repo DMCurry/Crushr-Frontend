@@ -113,6 +113,7 @@ function HomePage({ onAuthChange }) {
     add_exercise["exercise_description"] = exercise.exercise_description;
     add_exercise["exercise_reps"] = exercise.exercise_reps;
     add_exercise["exercise_sets"] = exercise.exercise_sets;
+    add_exercise["exercise_link"] = exercise.exercise_link;
     const exists = updatedData.data[currentDay].exercises.some((obj) => obj.exercise_id === add_exercise.exercise_id);
     console.log(exists);
     console.log(updatedData.data[currentDay]);
@@ -352,6 +353,7 @@ function HomePage({ onAuthChange }) {
             <p>{selectedExercise ? `${selectedExercise.exercise_description}` : selectedPerformanceTest ? `${selectedPerformanceTest.performance_test_description}` : ""}</p>
             <p>Reps: {selectedExercise ? `${selectedExercise.exercise_reps}` : "N/A"}</p>
             <p>Sets: {selectedExercise ? `${selectedExercise.exercise_sets}` : "N/A"}</p>
+            <p>Media Link: {selectedExercise && selectedExercise.exercise_link ? <a href={`${selectedExercise.exercise_link}`}>Link</a> : "N/A"}</p>
             {selectedPerformanceTest && (
               <div>
                 <input
@@ -401,6 +403,7 @@ function HomePage({ onAuthChange }) {
                   <p>{t_exercise.exercise_description}</p>
                   <p>Reps: {t_exercise.exercise_reps}</p>
                   <p>Sets: {t_exercise.exercise_sets}</p>
+                  <p>Media Link: { t_exercise.exercise_link ? <a href={`${t_exercise.exercise_link}`}>Link</a> : "N/A"}</p>
               </div>
               ))
           ) : (

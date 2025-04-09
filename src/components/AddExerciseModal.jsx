@@ -9,6 +9,7 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
     exercise_name: "",
     reps: "",
     sets: "",
+    link: "",
     description: "",
   });
   const [trainingPlans, setTrainingPlans] = useState([]);
@@ -23,11 +24,12 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
         exercise_name: exercise.exercise_name || "",
         reps: exercise.reps || "",
         sets: exercise.sets || "",
+        link: exercise.link || "",
         description: exercise.description || "",
       });
       fetchExerciseTrainingPlans();
     } else {
-      setFormData({ exercise_name: "", reps: "", sets: "", description: "" });
+      setFormData({ exercise_name: "", reps: "", sets: "", link: "", description: "" });
     }
   }, [exercise, isOpen]); // Runs when exercise changes
 
@@ -137,6 +139,17 @@ const NewExerciseModal = ({ isOpen, onDelete, onClose, onSave, exercise }) => {
             value={formData.sets}
             onChange={handleChange}
             placeholder="Enter number of sets"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="link">Media Link:</label>
+          <input
+            type="text"
+            id="link"
+            name="link"
+            value={formData.link}
+            onChange={handleChange}
+            placeholder="Enter media link"
           />
         </div>
         <div className="form-group">
