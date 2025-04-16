@@ -45,6 +45,7 @@ const UserSignupPage = () => {
             style={{maxWidth: "400px", marginBottom: "10px"}}
             type="text"
             name="username"
+            minLength="3"
             value={formData.username}
             onChange={handleInputChange}
             required
@@ -56,6 +57,7 @@ const UserSignupPage = () => {
             style={{maxWidth: "400px", marginBottom: "10px"}}
             type="password"
             name="password"
+            minLength="8"
             value={formData.password}
             onChange={handleInputChange}
             required
