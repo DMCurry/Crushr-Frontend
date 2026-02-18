@@ -24,19 +24,6 @@ function HomePage({ onAuthChange }) {
 
 
 
-  // Check authentication status on mount
-  const checkAuthStatus = async () => {
-    try {
-      await axiosInstance.get("/auth"); // An endpoint to verify authentication via JWT cookies
-      onAuthChange(true);
-      return true;
-    } catch (error) {
-      onAuthChange(false);
-      return false;
-    }
-  };
-
-
   const fetchData = async () => {
     try {
       const response = await axiosInstance.get("/schedule");
@@ -155,17 +142,10 @@ function HomePage({ onAuthChange }) {
 
   useEffect(() => {
     const initialize = async () => {
-      const isAuthenticated = await checkAuthStatus();
-      if (isAuthenticated) {
-        await fetchData();
-        await fetchTrainingPlans();
-        await fetchChartsData();
-      }
-      else {
-        navigate("/login");
-      }
+      await fetchData();
+      await fetchTrainingPlans();
+      await fetchChartsData();
     };
-
     initialize();
   }, []);
 

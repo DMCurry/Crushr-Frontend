@@ -5,4 +5,20 @@ const axiosInstance = axios.create({
   withCredentials: true, // Ensure cookies are included in requests
 });
 
+let onUnauthorized = null;
+
+export function setOnUnauthorized(callback) {
+  onUnauthorized = callback;
+}
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && onUnauthorized) {
+      onUnauthorized();
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;

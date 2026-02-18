@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 
 
-const LoginPage = () => {
+const LoginPage = ({ onAuthChange }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,7 +13,6 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Prepare form data
     const formData = new URLSearchParams();
     formData.append("username", username);
     formData.append("password", password);
@@ -24,7 +23,8 @@ const LoginPage = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      navigate("/"); // Redirect to home page
+      onAuthChange?.(true);
+      navigate("/");
     } catch (err) {
       setError("Invalid username or password");
     }

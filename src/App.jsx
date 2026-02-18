@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
-import axiosInstance from "./axiosInstance";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import axiosInstance, { setOnUnauthorized } from "./axiosInstance";
 import HomePage from "./pages/HomePage";
 import ExercisesPage from "./pages/ExercisesPage";
 import PerformanceTestsPage from "./pages/PerformanceTestsPage";
@@ -8,21 +8,51 @@ import LoginPage from "./pages/LoginPage";
 import UserSignupPage from "./pages/UserSignupPage";
 import TrainingPlanPage from "./pages/TrainingPlanPage";
 
+function LoadingScreen() {
+  return (
+    <div style={{ padding: "2rem", textAlign: "center" }}>
+      Loading…
+    </div>
+  );
+}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await axiosInstance.get("/auth");
+        setIsAuthenticated(true);
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        setAuthChecked(true);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    setOnUnauthorized(() => setIsAuthenticated(false));
+  }, []);
 
   const handleSignOut = async () => {
     try {
-      await axiosInstance.post("/logout"); // Send request to logout endpoint
-      setIsAuthenticated(true);
+      await axiosInstance.post("/logout");
+      setIsAuthenticated(false);
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
+  const requireAuth = (Element) =>
+    !authChecked ? <LoadingScreen /> : isAuthenticated ? Element : <Navigate to="/login" replace />;
+
   return (
     <Router>
+      {authChecked && (
         <nav>
           <ul>
             <li><Link to="/">Home</Link></li>
@@ -36,28 +66,27 @@ function App() {
             )}
           </ul>
         </nav>
-        <style>
+      )}
+      <style>
         {`
           @media (max-width: 768px) {
             nav {
-              font-size: 1.2rem; /* Smaller font size for logo */
+              font-size: 1.2rem;
             }
-
             nav ul li a {
-              font-size: 0.9rem; /* Smaller font size for navbar items */
+              font-size: 0.9rem;
             }
           }
         `}
       </style>
       <Routes>
-        <Route path="/" element={<HomePage onAuthChange={setIsAuthenticated} />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/exercises" element={isAuthenticated ? <ExercisesPage /> : <Navigate to="/login"></Navigate>} />
-        <Route path="/performance-tests" element={isAuthenticated ? <PerformanceTestsPage /> : <Navigate to="/login"></Navigate>} />
-        <Route path="/training-plans" element={isAuthenticated ? <TrainingPlanPage /> : <Navigate to="/login"></Navigate>} />
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/" element={requireAuth(<HomePage onAuthChange={setIsAuthenticated} />)} />
+        <Route path="/login" element={<LoginPage onAuthChange={setIsAuthenticated} />} />
+        <Route path="/exercises" element={requireAuth(<ExercisesPage />)} />
+        <Route path="/performance-tests" element={requireAuth(<PerformanceTestsPage />)} />
+        <Route path="/training-plans" element={requireAuth(<TrainingPlanPage />)} />
         <Route path="/signup" element={<UserSignupPage />} />
-
+        <Route path="*" element={!authChecked ? <LoadingScreen /> : <Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
