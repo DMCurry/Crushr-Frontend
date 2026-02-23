@@ -1,6 +1,6 @@
 # Crushr front end
 
-## This project uses React + Vite
+## A web-based application to plan and track your training  
 
 ### To run:
 First run the Crushr back end making sure that it is configured to allow for front end connections 
